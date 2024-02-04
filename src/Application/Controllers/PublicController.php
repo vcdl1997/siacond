@@ -7,23 +7,12 @@ class PublicController extends Controller{
     }
     public function index()
     {
-        View::get("main.html");
+        View::get("index.html");
     }
 
     public function home()
     {
-        $host = $this->data['host'];
-        $token = array_key_exists("token", $this->data['data']) ? $this->data['data']['token'] : '';
-
-        if(empty($token)){
-            View::get("login.html");
-        }
-
-        if(false){
-            View::get("home.html");
-        }
-        
-        header("Refresh: 0; url={$host}");
+        JSON::response($this->data, HttpStatusCode::OK);
     }
 
     public function login()

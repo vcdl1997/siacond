@@ -26,6 +26,8 @@ spl_autoload_register(function($className){
 
 function getFolders($dir, &$folders)
 {
+    if(strpos($dir, "UI") !== false) return false;
+    
     $content = array_filter(array_map(function($name){
         if(!in_array($name, [".", ".."])) return $name;
     }, scandir($dir)));
