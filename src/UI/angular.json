@@ -25,9 +25,16 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/assets/css/style.css",
+              "src/assets/css/reset.css",
+              "src/assets/css/core.css"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/core.js",
+              "src/assets/js/layout-settings.js",
+              "src/assets/js/process.js",
+              "src/assets/js/script.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -35,7 +42,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",

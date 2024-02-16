@@ -7,7 +7,7 @@ class PublicController extends Controller{
     }
     public function index()
     {
-        View::get("index.html");
+        View::get("index");
     }
 
     public function home()
