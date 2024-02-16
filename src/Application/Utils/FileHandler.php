@@ -34,13 +34,13 @@ final class FileHandler
             }
 
             if (preg_match('/.css/', $copy) && strpos($copy, "assets") !== false){
-                $content = self::replaceImagesInJsAndCss($copy);
+                $content = self::replaceImagesInJsAndCss($original);
                 file_put_contents($copy, $content);
             }else if (preg_match('/.js/', $copy) && strpos($copy, "assets") === false){
-                $content = self::replaceImagesInJsAndCss($copy);
+                $content = self::replaceImagesInJsAndCss($original);
                 file_put_contents($copy, $content);
-            }else if (!copy($original, $copy)) {
-                throw new IOException("Failed to copy {$copy}");
+            }else {
+                file_put_contents($copy, file_get_contents($original));
             }
         }
     }
