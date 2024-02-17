@@ -14,7 +14,7 @@ abstract class Repository
     public function buildDefaultSqlCommand(string $crudOperation) :PDOStatement
     {
         if(!in_array($crudOperation, ['INSERT', 'UPDATE', 'DELETE'])){
-            throw new Exception("Operation invalid");
+            throw new OutOfRangeException(SQLError::getMessage('UNSUPPORTED_COMMAND'));
         }
         
         $table = $this->model->getTable();
@@ -25,14 +25,14 @@ abstract class Repository
         $sql = "";
 
         if(empty($table)){
-            throw new Exception("Invalid table name");
+            throw new DatabaseErrorException(SQLError::getMessage('EMPTY_TABLE_NAME'));
         }
 
         switch($crudOperation)
         {
             case 'INSERT':
                 if(empty($arrFillable)){
-                    throw new Exception("Operation not permitted");
+                    throw new DatabaseErrorException(SQLError::getMessage('THERE_ARE_NO_MANIPULABLE_FIELDS'));
                 }
 
                 $sql = "{$crudOperation} INTO " . $table . " (" . implode(", ", $arrFillable) . ") VALUES (";
@@ -45,7 +45,7 @@ abstract class Repository
 
             case 'UPDATE':
                 if(empty($arrChangeable) || empty($arrPrimaryKey)){
-                    throw new Exception("Operation not permitted");
+                    throw new DatabaseErrorException(SQLError::getMessage('THERE_ARE_NO_MANIPULABLE_FIELDS'));
                 }
 
                 $sql = "{$crudOperation} {$table} SET";
@@ -65,7 +65,7 @@ abstract class Repository
 
             case 'DELETE':
                 if(empty($arrPrimaryKey)){
-                    throw new Exception("Operation not permitted");
+                    throw new DatabaseErrorException(SQLError::getMessage('THERE_ARE_NO_MANIPULABLE_FIELDS'));
                 }
 
                 $sql = "DELETE FROM " . $table . " WHERE ";
@@ -95,5 +95,16 @@ abstract class Repository
         }, $reflection->getProperties())));
 
         return count(array_diff($propsObject, $propsModel)) == 0;
+    }
+
+    public function getParamsFillable(Model $object) :array
+    {
+        $params = [];
+
+        foreach($this->model->getFillable() as $param => $value){
+            $params[":{$param}"] = $object->{$value}();
+        }
+
+        return $params;
     }
 }

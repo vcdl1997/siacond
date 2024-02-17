@@ -24,7 +24,7 @@ class SystemLogService
         $stmt->execute($params);
 
         if($stmt->rowCount() == 0){
-            $error = DatabaseError::getMessage('UNSUCCESSFUL_INSERT') . "“" . get_class($systemLog) . "”";
+            $error = SQLError::getMessage('UNSUCCESSFUL_INSERT') . "“" . get_class($systemLog) . "”";
             throw new DatabaseErrorException($error);
         }
     }
