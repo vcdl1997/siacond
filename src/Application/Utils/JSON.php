@@ -13,7 +13,7 @@ final class JSON
         try{
             return json_decode($data, $associative);
         }catch(Exception $e){
-            throw new JSONException("Error decoding JSON string");
+            throw new JSONException(JSONError::getMessage('UNSUCCESSFUL_DECODING'));
         }
     }
 }

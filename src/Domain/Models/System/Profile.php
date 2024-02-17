@@ -48,15 +48,15 @@ class Profile extends Model
     public function getFillable() :array
     {
         return [
-            self::DESCRIPTION,
-            self::CONSTANT
+            self::DESCRIPTION => 'getDescription',
+            self::CONSTANT => 'getConstant'
         ];
     }
 
     public function getChangeable() :array
     {
         return [
-            self::DESCRIPTION,
+            self::DESCRIPTION => 'getDescription'
         ];
     }
 }

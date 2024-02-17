@@ -1,10 +1,10 @@
 <?php
 
-final class ProfileRule extends Rule
+final class JSONError extends BaseError
 {
-    const MAXIMUM_SIZE_DESCRIPTION = [
-        LanguageIdentifier::PORTUGUESE_BRAZIL => 'O campo descrição deve conter no mínimo 1 caractere e no máximo 1000 caracteres.',
-        LanguageIdentifier::ENGLISH => 'The description field must contain a minimum of 1 character and a maximum of 1000 characters.'
+    const UNSUCCESSFUL_DECODING = [
+        LanguageIdentifier::PORTUGUESE_BRAZIL => 'Erro ao decodificar string JSON.',
+        LanguageIdentifier::ENGLISH => 'Error decoding JSON string.'
     ];
 
     public static function getMessage(string $constant) :string

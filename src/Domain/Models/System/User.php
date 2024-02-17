@@ -30,7 +30,7 @@ class User extends Model
 
     public function getPassword() :string
     {
-    	return str_repeat("*", strlen($this->password));
+    	return $this->password;
     }
 
     public function setPassword(string $password) :void
@@ -80,17 +80,17 @@ class User extends Model
     public function getFillable() :array
     {
         return [
-            self::USERNAME,
-            self::PASSWORD,
-            self::ACTIVE
+            self::USERNAME => 'getUsername',
+            self::PASSWORD => 'getPassword',
+            self::ACTIVE => 'getActive',
         ];
     }
 
     public function getChangeable() :array
     {
         return [
-            self::PASSWORD,
-            self::ACTIVE
+            self::PASSWORD => 'getPassword',
+            self::ACTIVE => 'getActive'
         ];
     }
 }

@@ -61,13 +61,13 @@ final class Route{
             }
         }
 
-        throw new NotFoundException("Route not found");        
+        throw new RuntimeException(RouteError::getMessage('NOT_FOUND'));        
     }
 
     public static function getData(string $resource, string $currentResource, string $method) :mixed
     {
         if(!in_array($method, ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])){
-            throw new OutOfRangeException("HTTP verb invalid");
+            throw new OutOfRangeException(RouteError::getMessage('INVALID_HTTP_VERB'));
         }
 
         $received = $query_params = [];
@@ -91,7 +91,7 @@ final class Route{
                 return $received;
         }
 
-        throw new RuntimeException("Error when recovering data");
+        throw new RuntimeException(RouteError::getMessage('RECOVER_DATA'));
     }
 
     private static function extractQueryParams(string $resource, array &$data) :void
@@ -114,7 +114,9 @@ final class Route{
 
             $pathParams = array_values(array_filter(explode("/", $resource), 'is_numeric'));
 
-            if(count($params) != count($pathParams)) throw new InvalidParameterException("Number of invalid parameters");
+            if(count($params) != count($pathParams)){
+                throw new InvalidParameterException(RouteError::getMessage('NUMBER_OF_INVALID_PATH_PARAMETERS'));
+            }
 
             foreach($pathParams as $index => $value){
                 $name = $params[$index];
@@ -130,7 +132,7 @@ final class Route{
 
     public static function execute(string $resource) :mixed
     {
-        $routes = self::getRoutes(); 
+        $routes = self::getRoutes();
         $method = self::getMethod();
         $currentResource = self::getCurrentRoute($method, $resource, $routes);
         $received = [
@@ -149,13 +151,13 @@ final class Route{
                 $controller = new $class($received);
 
                 if(!method_exists($controller, $function)){
-                    throw new NotFoundException("The function informed does not exist in the controller");
+                    throw new RuntimeException(RouteError::getMessage('UNDECLARED_FUNCTION'));
                 }
 
                 return $controller->{$function}();
             }
         }
 
-        throw new RuntimeException("Error processing request");
+        throw new RuntimeException(RouteError::getMessage('INVALID_PROCESSING'));
     }
 }

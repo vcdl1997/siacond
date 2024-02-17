@@ -1,7 +1,6 @@
 <?php
 
 class LanguageIdentifier{
-
     const ARABIC = "ar-SA";
     const BULGARIAN  = "bg-BG";
     const SIMPLIFIED_CHINESE  = "zh-cn";
@@ -42,5 +41,4 @@ class LanguageIdentifier{
     const TURKISH = "tr-TR";
     const UKRAINIAN = "uk-UA";
     const VIETNAMESE = "vi-VN";
-    
 }

@@ -2,12 +2,19 @@
 
 class UserToken extends Model
 {
-    const TABLE = 'tb_token';
-    const USER_ID = 'user_id';
-    const HASH = 'hash';
+    const TABLE = 'TB_USER_TOKEN';
+    const ID = 'ID';
+    const USER_ID = 'USER_ID';
+    const TOKEN = 'TOKEN';
     
+    private $id;
     private $userId;
-    private $hash;
+    private $token;
+
+    public function getId() :int
+    {
+    	return $this->id;
+    }
 
     public function getUserId() :int
     {
@@ -19,14 +26,14 @@ class UserToken extends Model
     	$this->userId = $userId;
     }
 
-    public function getHash() :string
+    public function getToken() :string
     {
-    	return $this->hash;
+    	return $this->token;
     }
 
-    public function setHash(string $hash) :void
+    public function setToken(string $token) :void
     {
-    	$this->hash = $hash;
+    	$this->token = $token;
     }
 
     public function getTable() :string
@@ -37,16 +44,15 @@ class UserToken extends Model
     public function getPrimaryKey() :mixed
     {
         return [
-            self::USER_ID,
-            self::HASH
+            self::ID
         ];
     }
 
     public function getFillable() :array
     {
         return [
-            self::USER_ID,
-            self::HASH
+            self::USER_ID => 'getUserId',
+            self::TOKEN => 'getToken'
         ];
     }
 

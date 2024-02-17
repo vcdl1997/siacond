@@ -2,12 +2,12 @@
 
 class Person extends Model
 {
-    const TABLE = 'tb_person';
-    const ID = 'id';
-    const FIRSTNAME = 'firstname';
-    const LASTNAME = 'lastname';
-    const BIRTHDATE = 'birthdate';
-    const USER_ID = 'user_id';
+    const TABLE = 'TB_PERSON';
+    const ID = 'ID';
+    const FIRSTNAME = 'FIRSTNAME';
+    const LASTNAME = 'LASTNAME';
+    const BIRTHDATE = 'BIRTHDATE';
+    const USER_ID = 'USER_ID';
 
     private $id;
     private $firstname;
@@ -26,7 +26,7 @@ class Person extends Model
     	return $this->firstname;
     }
 
-    public function setFirstname($firstname) :void
+    public function setFirstname(string $firstname) :void
     {
     	$this->firstname = $firstname;
     }
@@ -41,12 +41,22 @@ class Person extends Model
     	$this->lastname = $lastname;
     }
 
+    public function getBirthdate() :string
+    {
+    	return $this->birthdate;
+    }
+
+    public function setBirthdate(string $birthdate) :void
+    {
+    	$this->birthdate = $birthdate;
+    }
+
     public function getUserId() :int
     {
     	return $this->userId;
     }
 
-    public function setUserId($userId) :void
+    public function setUserId(int $userId) :void
     {
     	$this->userId = $userId;
     }
@@ -64,19 +74,18 @@ class Person extends Model
     public function getFillable() :array
     {
         return [
-            self::FIRSTNAME,
-            self::LASTNAME,
-            self::BIRTHDATE,
-            self::USER_ID
+            self::FIRSTNAME => 'getFirstname',
+            self::LASTNAME => 'getLastname',
+            self::BIRTHDATE => 'getBirthdate',
+            self::USER_ID => 'getUserId'
         ];
     }
 
     public function getChangeable() :array
     {
         return [
-            self::FIRSTNAME,
-            self::LASTNAME,
-            self::BIRTHDATE
+            self::FIRSTNAME => 'getFirstname',
+            self::LASTNAME => 'getLastname'
         ];
     }
 }

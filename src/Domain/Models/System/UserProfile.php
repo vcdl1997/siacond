@@ -3,8 +3,8 @@
 class UserProfile extends Model
 {
     const TABLE = 'TB_USER_PROFILE';
-    const ID_USER = 'USER_ID';
-    const ID_PROFILE = 'PROFILE_ID';
+    const USER_ID = 'USER_ID';
+    const PROFILE_ID = 'PROFILE_ID';
     
     private $userId;
     private $profileId;
@@ -19,7 +19,7 @@ class UserProfile extends Model
     	$this->userId = $userId;
     }
 
-    public function getIdProfile() :int
+    public function getProfileId() :int
     {
     	return $this->profileId;
     }
@@ -37,16 +37,16 @@ class UserProfile extends Model
     public function getPrimaryKey() :mixed
     {
         return [
-            self::ID_USER,
-            self::ID_PROFILE
+            self::USER_ID,
+            self::PROFILE_ID
         ];
     }
     
     public function getFillable() :array
     {
         return [
-            self::ID_USER,
-            self::ID_PROFILE
+            self::USER_ID => 'getUserId',
+            self::PROFILE_ID => 'getProfileId'
         ];
     }
 

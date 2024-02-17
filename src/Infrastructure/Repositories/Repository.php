@@ -20,8 +20,8 @@ abstract class Repository
         $table = $this->model->getTable();
         $primaryKey = $this->model->getPrimaryKey();
         $arrPrimaryKey = is_array($primaryKey) ? $primaryKey : explode(",", $primaryKey);
-        $arrFillable = $this->model->getFillable();
-        $arrChangeable = $this->model->getChangeable();
+        $arrFillable = array_keys($this->model->getFillable());
+        $arrChangeable = array_values($this->model->getChangeable());
         $sql = "";
 
         if(empty($table)){

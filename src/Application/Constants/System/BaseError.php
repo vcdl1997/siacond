@@ -1,10 +1,10 @@
 <?php
 
-abstract class Rule
+abstract class BaseError
 { 
     const NOT_DEFINED = [
-        LanguageIdentifier::ENGLISH => 'The rule being searched for was not found.',
-        LanguageIdentifier::PORTUGUESE_BRAZIL => 'A regra que está sendo buscada não foi encontrada.'
+        LanguageIdentifier::ENGLISH => 'The error message being fetched was not found.',
+        LanguageIdentifier::PORTUGUESE_BRAZIL => 'A mensagem de erro que está sendo buscada não foi encontrada.'
     ];
 
     protected static function getLanguage() :string
