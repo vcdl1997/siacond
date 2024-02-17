@@ -2,65 +2,69 @@
 
 class User extends Model
 {
-    const TABLE = 'user';
-    const ID = 'id';
-    const USERNAME = 'username';
-    const PASSWORD = 'password';
-    const ACTIVE = 'active';
+    const TABLE = 'TB_USER';
+    const ID = 'ID';
+    const USERNAME = 'USERNAME';
+    const PASSWORD = 'PASSWORD';
+    const ACTIVE = 'ACTIVE';
 
     private $id;
     private $username;
     private $password;
     private $active;
 
-    
-    public function getId() {
+    public function getId() :int
+    {
     	return $this->id;
     }
 
-    /**
-    * @param $id
-    */
-    public function setId($id) {
-    	$this->id = $id;
-    }
-
-    public function getUsername() {
+    public function getUsername() :string
+    {
     	return $this->username;
     }
 
-    /**
-    * @param $username
-    */
-    public function setUsername($username) {
+    public function setUsername(string $username) :void
+    {
     	$this->username = $username;
     }
 
-    public function getPassword() {
-    	return $this->password;
+    public function getPassword() :string
+    {
+    	return str_repeat("*", strlen($this->password));
     }
 
-    /**
-    * @param $password
-    */
-    public function setPassword($password) {
-    	$this->password = $password;
+    public function setPassword(string $password) :void
+    {
+    	$this->password = $this->encryptPassword($password);
     }
 
-    public function getActive() {
+    private function encryptPassword(string $password) :string
+    {
+        if(!$this->validatePassword($password)){
+            throw new Exception(UserRule::getMessage('INVALID_PASSWORD'));
+        }
+
+        return password_hash($password, PASSWORD_DEFAULT);
+    }
+
+    private function validatePassword(string $password) :bool
+    {
+        $allowedSize = strlen($password) >= 8 || strlen($password) <= 100;
+        $containsLetters = preg_match("/[a-zA-Z]+/", $password);
+        $containsNumbers = preg_match("/\d/", $password);
+        $containsSpecialCharacters = preg_match("/[`!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?~]/", $password);
+
+        return $allowedSize && $$containsLetters && $containsNumbers && $containsSpecialCharacters;
+    }
+
+    public function getActive() :bool
+    {
     	return $this->active;
     }
 
-    /**
-    * @param $active
-    */
-    public function setActive($active) {
-    	$this->active = $active;
-    }
-
-    public function __toString() :string
+    public function setActive(bool $active) :void
     {
-    	return "Id: {$this->id}, Username: {$this->username}, Password: {$this->password}, Active: {$this->active}";
+    	$this->active = $active;
     }
 
     public function getTable() :string
@@ -70,7 +74,7 @@ class User extends Model
 
     public function getPrimaryKey() :mixed
     {
-        return self::USER_ID;
+        return self::ID;
     }
 
     public function getFillable() :array

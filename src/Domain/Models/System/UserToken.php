@@ -1,34 +1,32 @@
 <?php
 
-class Token extends Model
+class UserToken extends Model
 {
-    const TABLE = 'token';
+    const TABLE = 'tb_token';
     const USER_ID = 'user_id';
     const HASH = 'hash';
     
     private $userId;
     private $hash;
 
-    public function getUserId() {
+    public function getUserId() :int
+    {
     	return $this->userId;
     }
 
-    public function setUserId($userId) {
+    public function setUserId(int $userId) :void
+    {
     	$this->userId = $userId;
     }
 
-    public function getHash() {
+    public function getHash() :string
+    {
     	return $this->hash;
     }
 
-    public function setHash($hash) 
+    public function setHash(string $hash) :void
     {
     	$this->hash = $hash;
-    }
-
-    public function __toString() :string
-    {
-    	return "UserId: {$this->userId}, Hash: {$this->hash}";
     }
 
     public function getTable() :string

@@ -6,6 +6,7 @@ final class Database{
     {
         $driver = getenv('DB_CONNECTION');
         $host = getenv('DB_HOST');
+        $password = getenv('DB_PORT');
         $dbname = getenv('DB_NAME');
         $user = getenv('DB_USER');
         $pass = getenv('DB_PASSWORD');
@@ -16,7 +17,7 @@ final class Database{
 
         try {
             $options = array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION);
-            return new PDO("{$driver}:host={$host};port=3306;dbname={$dbname};charset=utf8", $user, $pass, $options);
+            return new PDO("{$driver}:host={$host};port={$password};dbname={$dbname};charset=utf8", $user, $pass, $options);
         } catch(PDOException $e) {
             throw new Exception('ERROR: ' . $e->getMessage());
         }

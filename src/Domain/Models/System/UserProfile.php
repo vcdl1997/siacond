@@ -2,37 +2,31 @@
 
 class UserProfile extends Model
 {
-    const TABLE = 'user_profile';
-    const ID_USER = 'id_user';
-    const ID_PROFILE = 'id_profile';
+    const TABLE = 'TB_USER_PROFILE';
+    const ID_USER = 'USER_ID';
+    const ID_PROFILE = 'PROFILE_ID';
     
-    private $idUser;
-    private $idProfile;
+    private $userId;
+    private $profileId;
 
-    public function getIdUser() {
-    	return $this->idUser;
+    public function getUserId() :int
+    {
+    	return $this->userId;
     }
 
-    /**
-    * @param $idUser
-    */
-    public function setIdUser($idUser) {
-    	$this->idUser = $idUser;
+    public function setUserId(int $userId) :void
+    {
+    	$this->userId = $userId;
     }
 
-    public function getIdProfile() {
-    	return $this->idProfile;
+    public function getIdProfile() :int
+    {
+    	return $this->profileId;
     }
 
-    /**
-    * @param $idProfile
-    */
-    public function setIdProfile($idProfile) {
-    	$this->idProfile = $idProfile;
-    }
-
-    public function __toString() {
-    	return "IdUser: {$this->idUser}, IdProfile: {$this->idProfile}";
+    public function setProfileId(int $profileId) :void
+    {
+    	$this->profileId = $profileId;
     }
 
     public function getTable() :string

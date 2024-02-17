@@ -2,51 +2,37 @@
 
 class Profile extends Model
 {
-    const TABLE = 'profile';
-    const ID = 'id';
-    const DESCRIPTION = 'description';
-    const CONSTANT = 'constant';
+    const TABLE = 'TB_PROFILE';
+    const ID = 'ID';
+    const DESCRIPTION = 'DESCRIPTION';
+    const CONSTANT = 'CONSTANT';
 
     private $id;
     private $description;
     private $constant;
 
-    public function getId() {
+    public function getId() :int
+    {
     	return $this->id;
     }
 
-    /**
-    * @param $id
-    */
-    public function setId($id) {
-    	$this->id = $id;
-    }
-
-    public function getDescription() {
+    public function getDescription() :string
+    {
     	return $this->description;
     }
 
-    /**
-    * @param $description
-    */
-    public function setDescription($description) {
+    public function setDescription(string $description) :void
+    {
+        if(strlen($description) == 0 || strlen($description) > 1000){
+            throw new Exception(ProfileRule::getMessage('MAXIMUM_SIZE_DESCRIPTION'));
+        }
+
     	$this->description = $description;
     }
 
-    public function getConstant() {
-    	return $this->constant;
-    }
-
-    /**
-    * @param $constant
-    */
-    public function setConstant($constant) {
-    	$this->constant = $constant;
-    }
-
-    public function __toString() :string
+    public function getConstant() :string
     {
-    	return "Id: {$this->id}, Description: {$this->description}, Constant: {$this->constant}";
+    	return $this->constant;
     }
 
     public function getTable() :string

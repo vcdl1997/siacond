@@ -2,42 +2,28 @@
 
 class SystemLog extends Model
 {
-    const TABLE = 'system_log';
-    const ID = 'id';
-    const MESSAGE = 'message';
+    const TABLE = 'TB_SYSTEM_LOG';
+    const ID = 'ID';
+    const MESSAGE = 'MESSAGE';
 
     private $id;
     private $message;
 
-    public function getId() {
+    public function getId() :int
+    {
     	return $this->id;
     }
 
-    /**
-    * @param $id
-    */
-    public function setId($id) {
-    	$this->id = $id;
-    }
-
-    public function getMessage() {
+    public function getMessage() :string
+    {
     	return $this->message;
     }
 
-    /**
-    * @param $message
-    */
-    public function setMessage($message) {
+    public function setMessage(string $message) :void
+    {
     	$this->message = $message;
     }
-
-    /**
-     * @return string
-     */
-    public function __toString() {
-    	return "Id: {$this->id}, Message: {$this->message}";
-    }
-
+    
     public function getTable() :string
     {
         return self::TABLE;

@@ -2,65 +2,53 @@
 
 class Person extends Model
 {
-    const TABLE = 'person';
+    const TABLE = 'tb_person';
     const ID = 'id';
     const FIRSTNAME = 'firstname';
-    const EMAIL = 'email';
+    const LASTNAME = 'lastname';
+    const BIRTHDATE = 'birthdate';
     const USER_ID = 'user_id';
 
     private $id;
     private $firstname;
-    private $email;
+    private $lastname;
+    private $birthdate;
     private $userId;
 
     
-    public function getId() {
+    public function getId() :int
+    {
     	return $this->id;
     }
 
-    /**
-    * @param $id
-    */
-    public function setId($id) {
-    	$this->id = $id;
-    }
-
-    public function getFirstname() {
+    public function getFirstname() :string
+    {
     	return $this->firstname;
     }
 
-    /**
-    * @param $firstname
-    */
-    public function setFirstname($firstname) {
+    public function setFirstname($firstname) :void
+    {
     	$this->firstname = $firstname;
     }
 
-    public function getEmail() {
-    	return $this->email;
+    public function getLastname() :string
+    {
+    	return $this->lastname;
     }
 
-    /**
-    * @param $email
-    */
-    public function setEmail($email) {
-    	$this->email = $email;
+    public function setLastname(string $lastname) 
+    {
+    	$this->lastname = $lastname;
     }
 
-    public function getUserId() {
+    public function getUserId() :int
+    {
     	return $this->userId;
     }
 
-    /**
-    * @param $userId
-    */
-    public function setUserId($userId) {
-    	$this->userId = $userId;
-    }
-    
-    public function __toString() :string
+    public function setUserId($userId) :void
     {
-    	return "Id: {$this->id}, Firstname: {$this->firstname}, Email: {$this->email}, UserId: {$this->userId}";
+    	$this->userId = $userId;
     }
 
     public function getTable() :string
@@ -77,7 +65,8 @@ class Person extends Model
     {
         return [
             self::FIRSTNAME,
-            self::EMAIL,
+            self::LASTNAME,
+            self::BIRTHDATE,
             self::USER_ID
         ];
     }
@@ -86,8 +75,8 @@ class Person extends Model
     {
         return [
             self::FIRSTNAME,
-            self::EMAIL,
-            self::USER_ID
+            self::LASTNAME,
+            self::BIRTHDATE
         ];
     }
 }

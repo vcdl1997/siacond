@@ -2,18 +2,25 @@
 
 abstract class Model implements IModel
 { 
-    const CREATED_AT = 'created_at';
-    const UPDATED_AT = 'updated_at';
+    const CREATED_AT = 'CREATED_AT';
+    const UPDATED_AT = 'UPDATED_AT';
 
     protected $created_at;
     protected $updated_at;
 
-    public function getCreated_at() {
+    public function getCreated_at() :string
+    {
     	return $this->created_at;
     }
 
-    public function getUpdated_at() {
+    public function getUpdated_at() :string
+    {
     	return $this->updated_at;
+    }
+
+    public function __toString() :string
+    {
+        return json_encode(get_object_vars($this));
     }
 }
 
