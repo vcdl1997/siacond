@@ -2,26 +2,26 @@
 
 class PublicController extends Controller{
 
-    function __construct($data = null){
+    private $userService;
+
+    function __construct(
+        mixed $data = null,
+        UserService $usuarioService = new UserService()
+    ){
         parent::__construct($data);
+        $this->userService = $usuarioService;
     }
+
+
     public function index()
     {
         View::get("index");
     }
 
-    public function home()
+    public function authentication()
     {
-        JSON::response($this->data, HttpStatusCode::OK);
-    }
+        $retorno = "";
 
-    public function login()
-    {
-        JSON::response($this->data, HttpStatusCode::OK);
-    }
-
-    public function logout()
-    {
         JSON::response($this->data, HttpStatusCode::OK);
     }
 }

@@ -61,4 +61,9 @@ class Profile extends Model
             self::DESCRIPTION => 'getDescription'
         ];
     }
+
+    public function toString() :string
+    {
+        return json_encode(get_object_vars($this));
+    }
 }

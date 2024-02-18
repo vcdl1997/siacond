@@ -1,57 +1,62 @@
 <?php
 
-class Person extends Model
+abstract class PersonBase extends Model
 {
-    const TABLE = 'TB_PERSON';
-    const ID = 'ID';
+    const NATIONAL_IDENTIFIER_CODE = 'NATIONAL_IDENTIFIER_CODE';
     const FIRSTNAME = 'FIRSTNAME';
     const LASTNAME = 'LASTNAME';
     const BIRTHDATE = 'BIRTHDATE';
     const USER_ID = 'USER_ID';
+
     const MINIMUM_SIZE_FIRSTNAME = 3;
     const MAXIMUM_SIZE_FIRSTNAME = 100;
     const MINIMUM_SIZE_LASTNAME = 3;
     const MAXIMUM_SIZE_LASTNAME = 200;
 
-    private $id;
-    private $firstname;
-    private $lastname;
-    private $birthdate;
-    private $userId;
-
+    protected $nationalIdentifierCode;
+    protected $firstname;
+    protected $lastname;
+    protected $birthdate;
+    protected $userId;
     
-    public static function build() :Person
+    public function nationalIdentifierCode(mixed $nationalIdentifierCode = null) :mixed
     {
-        return new Person();
+        $this->setNationalIdentifierCode($nationalIdentifierCode ?? "");
+        return $this;
     }
 
-    public function firstname(mixed $firstname) :Person
+    public function firstname(mixed $firstname = null) :mixed
     {
         $this->setFirstname($firstname ?? "");
         return $this;
     }
 
-    public function lastname(mixed $lastname) :Person
+    public function lastname(mixed $lastname = null) :mixed
     {
         $this->setLastname($lastname ?? "");
         return $this;
     }
 
-    public function birthdate(mixed $birthdate) :Person
+    public function birthdate(mixed $birthdate = null) :mixed
     {
         $this->setBirthdate($birthdate ?? "");
         return $this;
     }
 
-    public function userId(mixed $userId) :Person
+    public function userId(mixed $userId = null) :mixed
     {
         $this->setUserId($userId ?? 0);
         return $this;
     }
 
-    public function getId() :int
+    public function getNationalIdentifierCode() :string
     {
-    	return $this->id;
+    	return $this->nationalIdentifierCode;
+    }
+
+    public function setNationalIdentifierCode(string $nationalIdentifierCode) :void
+    {
+    	$this->nationalIdentifierCode = $nationalIdentifierCode;
     }
 
     public function getFirstname() :string
@@ -116,38 +121,10 @@ class Person extends Model
 
     public function setUserId(int $userId) :void
     {
-        if($userId == 0 || $userId > self::LIMIT_BIGINT_MYSQL){
+        if($userId < self::MINIMUM_LIMIT_BIGINT || $userId > self::MAXIMUM_LIMIT_BIGINT){
             throw new BusinessException(PersonRule::getMessage('INVALID_USER'));
         }
 
     	$this->userId = $userId;
-    }
-
-    public function getTable() :string
-    {
-        return self::TABLE;
-    }
-
-    public function getPrimaryKey() :mixed
-    {
-        return self::ID;
-    }
-
-    public function getFillableFields() :array
-    {
-        return [
-            self::FIRSTNAME => 'getFirstname',
-            self::LASTNAME => 'getLastname',
-            self::BIRTHDATE => 'getBirthdate',
-            self::USER_ID => 'getUserId'
-        ];
-    }
-
-    public function getMutableFields() :array
-    {
-        return [
-            self::FIRSTNAME => 'getFirstname',
-            self::LASTNAME => 'getLastname'
-        ];
     }
 }

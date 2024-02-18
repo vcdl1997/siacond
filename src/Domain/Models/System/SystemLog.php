@@ -132,4 +132,9 @@ class SystemLog extends Model
     {
         return [];
     }
+
+    public function toString() :string
+    {
+        return json_encode(get_object_vars($this));
+    }
 }
