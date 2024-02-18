@@ -26,13 +26,13 @@ class SystemLogService
     {
         switch(get_class($exception)){
             case "BusinessException":
-                JSON::response($exception->getMessage(), HttpStatusCode::BAD_REQUEST);
+                JSON::response(['message' => $exception->getMessage()], HttpStatusCode::BAD_REQUEST);
 
             case "NotFoundException":
-                JSON::response($exception->getMessage(), HttpStatusCode::NOT_FOUND);
+                JSON::response(['message' => $exception->getMessage()], HttpStatusCode::NOT_FOUND);
 
             case "InvalidArgumentException": 
-                JSON::response($exception->getMessage(), HttpStatusCode::UNPROCESSABLE_ENTITY);
+                JSON::response(['message' => $exception->getMessage()], HttpStatusCode::UNPROCESSABLE_ENTITY);
 
             case "ModelException":
             case "DatabaseErrorException":
@@ -40,7 +40,7 @@ class SystemLogService
             case "IOException":
             case "OutOfRangeException":
             case "RuntimeException": 
-                JSON::response($exception->getMessage(), HttpStatusCode::INTERNAL_SERVER_ERROR);
+                JSON::response(['message' => $exception->getMessage()], HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
 }

@@ -16,13 +16,13 @@ class Resident extends PersonBase
         return new Resident();
     }
 
-    public function registeredBiometrics(mixed $registeredBiometrics) :Resident
+    public function registeredBiometrics(mixed $registeredBiometrics = null) :Resident
     {
         $this->setRegisteredBiometrics($registeredBiometrics ?? false);
         return $this;
     }
 
-    public function active(mixed $active) :Resident
+    public function active(mixed $active = null) :Resident
     {
         $this->setActive($active ?? true);
         return $this;

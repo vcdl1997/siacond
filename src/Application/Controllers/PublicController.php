@@ -6,12 +6,11 @@ class PublicController extends Controller{
 
     function __construct(
         mixed $data = null,
-        UserService $usuarioService = new UserService()
+        UserService $userService = new UserService()
     ){
         parent::__construct($data);
-        $this->userService = $usuarioService;
+        $this->userService = $userService;
     }
-
 
     public function index()
     {
@@ -20,8 +19,7 @@ class PublicController extends Controller{
 
     public function authentication()
     {
-        $retorno = "";
-
-        JSON::response($this->data, HttpStatusCode::OK);
+        $retorno = $this->userService->authentication($this->data[self::RECEIVED]);
+        JSON::response($retorno, HttpStatusCode::OK);
     }
 }

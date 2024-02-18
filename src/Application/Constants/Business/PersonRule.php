@@ -26,10 +26,19 @@ final class PersonRule extends Rule
 
     const INVALID_BIRTHDATE = [
         LanguageIdentifier::PORTUGUESE_BRAZIL => "
-            O valor informado no campo “data de nascimento” deve estar no formato “YYYY-MM-DD” e deve ser uma data válida.
+            O valor informado no campo “data de nascimento” deve estar no formato “YYYY-MM-DD”.
         ",
         LanguageIdentifier::ENGLISH => "
-            The value entered in the “date of birth” field must be in the format “YYYY-MM-DD” and must be a valid date.
+            The value entered in the “date of birth” field must be in the format “YYYY-MM-DD”.
+        "
+    ];
+
+    const DOES_NOT_EXIST_OR_HAS_NO_MINIMUM_AGE = [
+        LanguageIdentifier::PORTUGUESE_BRAZIL => "
+            A data informada não existe ou a idade minima para uso do sistema não foi atingida.
+        ",
+        LanguageIdentifier::ENGLISH => "
+            The date entered does not exist or the minimum age for using the system has not been reached.
         "
     ];
 

@@ -25,7 +25,7 @@ class Profile extends Model
 
     public function setDescription(string $description) :void
     {
-        if(strlen($description) < self::MINIMUM_SIZE_DESCRIPTION || strlen($description) > self::MAXIMUM_SIZE_DESCRIPTION){
+        if(strlen(trim($description)) < self::MINIMUM_SIZE_DESCRIPTION || strlen(trim($description)) > self::MAXIMUM_SIZE_DESCRIPTION){
             throw new Exception(ProfileRule::getMessage('MAXIMUM_SIZE_DESCRIPTION'));
         }
 

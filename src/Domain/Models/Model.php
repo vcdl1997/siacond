@@ -4,9 +4,6 @@ abstract class Model implements IModel
 { 
     const CREATED_AT = 'CREATED_AT';
     const UPDATED_AT = 'UPDATED_AT';
-    const YEAR = 0;
-    const MONTH = 1;
-    const DAY = 2;
     const MINIMUM_LIMIT_BIGINT = 1;
     const MAXIMUM_LIMIT_BIGINT = 9223372036854775807; 
 

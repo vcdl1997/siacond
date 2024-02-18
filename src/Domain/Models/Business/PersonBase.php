@@ -12,6 +12,7 @@ abstract class PersonBase extends Model
     const MAXIMUM_SIZE_FIRSTNAME = 100;
     const MINIMUM_SIZE_LASTNAME = 3;
     const MAXIMUM_SIZE_LASTNAME = 200;
+    const MINIMUM_AGE_TO_USE_THE_SYSTEM = 14;
 
     protected $nationalIdentifierCode;
     protected $firstname;
@@ -66,7 +67,7 @@ abstract class PersonBase extends Model
 
     public function setFirstname(string $firstname) :void
     {
-        if(!strlen($firstname) >= self::MINIMUM_SIZE_FIRSTNAME && !strlen($firstname) <= self::MAXIMUM_SIZE_FIRSTNAME){
+        if(strlen(trim($firstname)) < self::MINIMUM_SIZE_FIRSTNAME || strlen(trim($firstname)) > self::MAXIMUM_SIZE_FIRSTNAME){
             throw new InvalidArgumentException(PersonRule::getMessage('INVALID_FIRSTNAME'));
         }
 
@@ -80,7 +81,7 @@ abstract class PersonBase extends Model
 
     public function setLastname(string $lastname) 
     {
-        if(!strlen($lastname) >= self::MINIMUM_SIZE_LASTNAME && !strlen($lastname) <= self::MAXIMUM_SIZE_LASTNAME){
+        if(strlen(trim($lastname)) < self::MINIMUM_SIZE_LASTNAME || strlen(trim($lastname)) > self::MAXIMUM_SIZE_LASTNAME){
             throw new InvalidArgumentException(PersonRule::getMessage('INVALID_LASTNAME'));
         }
 
@@ -95,7 +96,7 @@ abstract class PersonBase extends Model
     public function setBirthdate(string $birthdate) :void
     {
         if(!$this->validateBirthdate($birthdate)){
-            throw new InvalidArgumentException(PersonRule::getMessage('INVALID_BIRTHDATE'));
+            throw new InvalidArgumentException(PersonRule::getMessage('DOES_NOT_EXIST_OR_HAS_NO_MINIMUM_AGE'));
         }
 
     	$this->birthdate = $birthdate;
@@ -106,12 +107,13 @@ abstract class PersonBase extends Model
         $pattern = "/[0-9]{4}-[0-9]{2}-[0-9]{2}/";
 
         if(!preg_match($pattern, $birthdate)){
-            throw new BusinessException(PersonRule::getMessage('INVALID_BIRTHDATE'));
+            throw new InvalidArgumentException(PersonRule::getMessage('INVALID_BIRTHDATE'));
         }
 
-        $split_date = explode("-", $birthdate);
+        $dateExists = Calendar::dateExists($birthdate);
+        $haveAMinimumAge = Calendar::getDifferenceInYears($birthdate) >= self::MINIMUM_AGE_TO_USE_THE_SYSTEM;
 
-        return checkdate($split_date[self::MONTH], $split_date[self::DAY], $split_date[self::YEAR]);
+        return $dateExists && $haveAMinimumAge;
     }
 
     public function getUserId() :int

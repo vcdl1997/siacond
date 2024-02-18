@@ -4,6 +4,7 @@ final class Route{
 
     const URL_POSSIBILITIES = [
         "http://localhost",
+        "http://localhost:80",
         "http://www.siacond.com.br",
         "https://www.siacond.com.br"
     ];
@@ -40,18 +41,21 @@ final class Route{
     public static function getCurrentRoute(string $method, string $resource, array $routes) :string
     {
         $resource = str_replace(self::URL_POSSIBILITIES, "", $resource);
+        $resource = substr($resource, strpos($resource, "/"));
         $resource = explode("?", $resource)[0];
 
         if(in_array($method, ['GET', 'PUT', 'PATCH', 'DELETE'])){
             $resource = implode('/', array_filter(explode("/", preg_replace('/[0-9]+/', '', $resource))));
         }
 
+        $resource = empty($resource) ? "/" : $resource;
+
         foreach($routes as $route => $info)
         {
             $routeWithoutParams = "";
 
-            if(in_array($info[self::METHOD], ['GET', 'PUT', 'PATCH', 'DELETE'])){
-                $routeWithoutParams = implode("/", array_filter(array_map(function($value){
+            if(in_array($info[self::METHOD], ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'])){
+                $routeWithoutParams = "/" . implode("/", array_filter(array_map(function($value){
                     if(strpos($value, '{') === false && strpos($value, '}') === false) return $value;
                 }, explode("/", $route))));
             }

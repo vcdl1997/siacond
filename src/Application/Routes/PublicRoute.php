@@ -7,7 +7,7 @@ class PublicRoute implements IRoute
         // Route => [ HTTP verb, Controller, Function ]
         return [
             '/' => ['GET', PublicController::class, 'index'],
-            '/api/authentication' => ['POST', PublicController::class, 'login'],
+            '/api/login' => ['POST', PublicController::class, 'authentication'],
         ];
     }
 }
