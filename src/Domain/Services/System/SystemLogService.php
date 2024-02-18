@@ -5,7 +5,7 @@ class SystemLogService
     private $systemLog;
     private $systemLogRepository;
 
-    function __construct(SystemLog $systemLog)
+    function __construct(SystemLog $systemLog = new SystemLog())
     {
         $this->systemLog = $systemLog;
         $this->systemLogRepository = new SystemLogRepository($systemLog);
@@ -19,14 +19,7 @@ class SystemLogService
 
     private function store(SystemLog $systemLog) :void
     {
-        $params = $this->systemLogRepository->getParamsFillable($this->systemLog);
-        $stmt = $this->systemLogRepository->buildDefaultSqlCommand('INSERT');
-        $stmt->execute($params);
-
-        if($stmt->rowCount() == 0){
-            $error = SQLError::getMessage('UNSUCCESSFUL_INSERT') . "“" . get_class($systemLog) . "”";
-            throw new DatabaseErrorException($error);
-        }
+        $this->systemLogRepository->defaultSqlCommand('INSERT', $systemLog);
     }
 
     private function response(Exception $exception) :void
@@ -38,8 +31,12 @@ class SystemLogService
             case "NotFoundException":
                 JSON::response($exception->getMessage(), HttpStatusCode::NOT_FOUND);
 
+            case "InvalidArgumentException": 
+                JSON::response($exception->getMessage(), HttpStatusCode::UNPROCESSABLE_ENTITY);
+
+            case "ModelException":
+            case "DatabaseErrorException":
             case "JSONException":
-            case "InvalidParameterException": 
             case "IOException":
             case "OutOfRangeException":
             case "RuntimeException": 

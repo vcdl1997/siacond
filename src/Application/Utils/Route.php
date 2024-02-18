@@ -115,7 +115,7 @@ final class Route{
             $pathParams = array_values(array_filter(explode("/", $resource), 'is_numeric'));
 
             if(count($params) != count($pathParams)){
-                throw new InvalidParameterException(RouteError::getMessage('NUMBER_OF_INVALID_PATH_PARAMETERS'));
+                throw new RuntimeException(RouteError::getMessage('NUMBER_OF_INVALID_PATH_PARAMETERS'));
             }
 
             foreach($pathParams as $index => $value){

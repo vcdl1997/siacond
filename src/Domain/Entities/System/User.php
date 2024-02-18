@@ -13,9 +13,37 @@ class User extends Model
     private $password;
     private $active;
 
+    public static function build() :User
+    {
+        return new User();
+    }
+
+    public function username(mixed $username) :User
+    {
+        $this->setUsername($username ?? "");
+        return $this;
+    }
+
+    public function password(mixed $password) :User
+    {
+        $this->setPassword($password ?? "");
+        return $this;
+    }
+
+    public function active(mixed $active) :User
+    {
+        $this->setActive($active ?? true);
+        return $this;
+    }
+
     public function getId() :int
     {
     	return $this->id;
+    }
+
+    public function setId(int $id) :void
+    {
+    	$this->id = $id;
     }
 
     public function getUsername() :string
@@ -25,7 +53,20 @@ class User extends Model
 
     public function setUsername(string $username) :void
     {
+        if(!$this->validateUsername($username)){
+            throw new Exception(UserRule::getMessage('INVALID_USERNAME'));
+        }
+
     	$this->username = $username;
+    }
+
+    private function validateUsername(string $username) :bool
+    {
+        $allowedSize = strlen($username) >= 3 && strlen($username) <= 320;
+        $checkIfEmailInString = Text::checkIfEmailInString($username);
+        $emailIsValid = $checkIfEmailInString ? filter_var($username, FILTER_VALIDATE_EMAIL) : true; 
+
+        return $allowedSize && $emailIsValid;
     }
 
     public function getPassword() :string
@@ -41,7 +82,7 @@ class User extends Model
     private function encryptPassword(string $password) :string
     {
         if(!$this->validatePassword($password)){
-            throw new Exception(UserRule::getMessage('INVALID_PASSWORD'));
+            throw new InvalidArgumentException(UserRule::getMessage('INVALID_PASSWORD'));
         }
 
         return password_hash($password, PASSWORD_DEFAULT);
@@ -54,7 +95,7 @@ class User extends Model
         $containsNumbers = preg_match("/\d/", $password);
         $containsSpecialCharacters = preg_match("/[`!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?~]/", $password);
 
-        return $allowedSize && $$containsLetters && $containsNumbers && $containsSpecialCharacters;
+        return $allowedSize && $containsLetters && $containsNumbers && $containsSpecialCharacters;
     }
 
     public function getActive() :bool
@@ -77,16 +118,15 @@ class User extends Model
         return self::ID;
     }
 
-    public function getFillable() :array
+    public function getFillableFields() :array
     {
         return [
             self::USERNAME => 'getUsername',
-            self::PASSWORD => 'getPassword',
-            self::ACTIVE => 'getActive',
+            self::PASSWORD => 'getPassword'
         ];
     }
 
-    public function getChangeable() :array
+    public function getMutableFields() :array
     {
         return [
             self::PASSWORD => 'getPassword',

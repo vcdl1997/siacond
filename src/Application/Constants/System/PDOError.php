@@ -1,10 +1,10 @@
 <?php
 
-final class DatabaseError extends BaseError
+final class PDOError extends BaseError
 {
-    const UNSUCCESSFUL_INSERT = [
-        LanguageIdentifier::PORTUGUESE_BRAZIL => 'Erro ao salvar o registro ',
-        LanguageIdentifier::ENGLISH => 'Error saving record '
+    const INVALID_FORMAT = [
+        LanguageIdentifier::PORTUGUESE_BRAZIL => 'Formato de retorno incompátivel com o esperado.',
+        LanguageIdentifier::ENGLISH => 'Return format incompatible with expectations.'
     ];
 
     public static function getMessage(string $constant) :string

@@ -1,13 +1,20 @@
 <?php
 
-class UserProfile extends Model
+class UserToken extends Model
 {
-    const TABLE = 'TB_USER_PROFILE';
+    const TABLE = 'TB_USER_TOKEN';
+    const ID = 'ID';
     const USER_ID = 'USER_ID';
-    const PROFILE_ID = 'PROFILE_ID';
+    const TOKEN = 'TOKEN';
     
+    private $id;
     private $userId;
-    private $profileId;
+    private $token;
+
+    public function getId() :int
+    {
+    	return $this->id;
+    }
 
     public function getUserId() :int
     {
@@ -19,14 +26,14 @@ class UserProfile extends Model
     	$this->userId = $userId;
     }
 
-    public function getProfileId() :int
+    public function getToken() :string
     {
-    	return $this->profileId;
+    	return $this->token;
     }
 
-    public function setProfileId(int $profileId) :void
+    public function setToken(string $token) :void
     {
-    	$this->profileId = $profileId;
+    	$this->token = $token;
     }
 
     public function getTable() :string
@@ -37,20 +44,19 @@ class UserProfile extends Model
     public function getPrimaryKey() :mixed
     {
         return [
-            self::USER_ID,
-            self::PROFILE_ID
-        ];
-    }
-    
-    public function getFillable() :array
-    {
-        return [
-            self::USER_ID => 'getUserId',
-            self::PROFILE_ID => 'getProfileId'
+            self::ID
         ];
     }
 
-    public function getChangeable() :array
+    public function getFillableFields() :array
+    {
+        return [
+            self::USER_ID => 'getUserId',
+            self::TOKEN => 'getToken'
+        ];
+    }
+
+    public function getMutableFields() :array
     {
         return [];
     }

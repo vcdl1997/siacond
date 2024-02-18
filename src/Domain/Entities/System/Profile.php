@@ -45,7 +45,7 @@ class Profile extends Model
         return self::ID;
     }
 
-    public function getFillable() :array
+    public function getFillableFields() :array
     {
         return [
             self::DESCRIPTION => 'getDescription',
@@ -53,7 +53,7 @@ class Profile extends Model
         ];
     }
 
-    public function getChangeable() :array
+    public function getMutableFields() :array
     {
         return [
             self::DESCRIPTION => 'getDescription'

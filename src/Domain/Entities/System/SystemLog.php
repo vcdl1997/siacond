@@ -117,7 +117,7 @@ class SystemLog extends Model
         return self::ID;
     }
 
-    public function getFillable() :array
+    public function getFillableFields() :array
     {
         return [
             self::EXCEPTION => "getException",
@@ -128,7 +128,7 @@ class SystemLog extends Model
         ];
     }
 
-    public function getChangeable() :array
+    public function getMutableFields() :array
     {
         return [];
     }

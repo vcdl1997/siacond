@@ -5,6 +5,11 @@ abstract class Model implements IModel
     const CREATED_AT = 'CREATED_AT';
     const UPDATED_AT = 'UPDATED_AT';
 
+    const YEAR = 0;
+    const MONTH = 1;
+    const DAY = 2;
+    const LIMIT_BIGINT_MYSQL = 9223372036854775807; 
+
     protected $created_at;
     protected $updated_at;
 
@@ -28,6 +33,6 @@ interface IModel
 {
     public function getTable() :string;
     public function getPrimaryKey() :mixed;
-    public function getFillable() :array;
-    public function getChangeable() :array;
+    public function getFillableFields() :array;
+    public function getMutableFields() :array;
 }
