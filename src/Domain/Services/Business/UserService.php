@@ -35,7 +35,7 @@ class UserService
         }
 
         if(!$this->userRepository->existsUsersWithThisUsername($username)){
-            throw new BusinessException(UserRule::getMessage('NOT_FOUND'));
+            throw new NotFoundException(UserRule::getMessage('NOT_FOUND'));
         }
 
         $user = $this->userRepository->getByUsername($username);
