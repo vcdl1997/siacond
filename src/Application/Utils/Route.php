@@ -40,7 +40,8 @@ final class Route{
 
     public static function getCurrentRoute(string $method, string $resource, array $routes) :string
     {
-        $resource = str_replace(self::URL_POSSIBILITIES, "", $resource);
+        $possibilities = array_merge(["http://" . gethostbynamel(gethostname())[0]], self::URL_POSSIBILITIES);
+        $resource = str_replace($possibilities, "", $resource);
         $resource = substr($resource, strpos($resource, "/"));
         $resource = explode("?", $resource)[0];
 
