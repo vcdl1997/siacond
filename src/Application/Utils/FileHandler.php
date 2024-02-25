@@ -67,15 +67,15 @@ final class FileHandler
 
     private static function replaceImagesInCss(string &$code) :void
     {
-        foreach(explode("background-image:url", $code) as $style){
-            if(preg_match("/assets/", $style) && preg_match("/images/", $style)){
-                $style = substr($style, 1, strpos($style, ")")-1);
-                $replace = implode("/", array_unique(explode("/", $style)));
-
+        foreach(explode("background-image:url", $code) as $image){
+            if(preg_match("/assets/", $image) && preg_match("/images/", $image)){
+                $image = substr($image, 1, strpos($image, ")")-1);
+                $replace = implode("/", array_unique(explode("/", $image)));
+                
                 if(substr($replace, 0, 1) == "/") $replace = substr($replace, 1);
                 if(strpos($replace, "./public/") === false) $replace = "./public/{$replace}";
-
-                $code = str_replace($style, $replace, $code);
+                
+                $code = str_replace($image, $replace, $code);
             }
         }
     }
@@ -84,9 +84,7 @@ final class FileHandler
     {
         foreach(explode('"src","', $code) as $script){
             if(preg_match("/assets/", $script) && preg_match("/images/", $script)){
-                $script = substr($script, 0, strpos($script, '"'));
-                $replace = substr($script, strpos($script, '/assets/'));
-                $code = str_replace($script, "./public/{$replace}", $code);
+                $code = str_replace("/assets", "./public/assets", $script);
             }
         }
     }
@@ -104,8 +102,12 @@ final class FileHandler
     private static function replaceStyles(string &$html) :void
     {
         foreach(explode("href", $html) as $style){
-            if(preg_match("/.css/", $style) && !preg_match("/public/", $style)){
+            if(
+                (preg_match("/.css/", $style) && strpos($style, "app-root") !== false) ||
+                (preg_match("/.css/", $style) && !preg_match("/public/", $style))    
+            ){
                 $style = str_replace("quot;", "", substr($style, 2, strpos($style, ".css")+1));
+                $style = explode(".", $style)[0] . ".css";
                 $html = str_replace($style, "./public/{$style}", $html);
             }
         }

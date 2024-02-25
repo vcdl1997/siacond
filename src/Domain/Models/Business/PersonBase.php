@@ -111,7 +111,7 @@ abstract class PersonBase extends Model
         }
 
         $dateExists = Calendar::dateExists($birthdate);
-        $haveAMinimumAge = Calendar::getDifferenceInYears($birthdate) >= self::MINIMUM_AGE_TO_USE_THE_SYSTEM;
+        $haveAMinimumAge = Calendar::getDifferenceWithCurrentDateByFormat($birthdate, '%y') >= self::MINIMUM_AGE_TO_USE_THE_SYSTEM;
 
         return $dateExists && $haveAMinimumAge;
     }

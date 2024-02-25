@@ -67,10 +67,7 @@ class User extends Model
     private function validateUsername(string $username) :bool
     {
         $allowedSize = strlen($username) >= self::MINIMUM_SIZE_USERNAME && strlen($username) <= self::MAXIMUM_SIZE_USERNAME;
-        $checkIfEmailInString = Text::checkIfEmailInString($username);
-        $emailIsValid = $checkIfEmailInString ? filter_var($username, FILTER_VALIDATE_EMAIL) : true; 
-
-        return $allowedSize && $emailIsValid;
+        return $allowedSize;
     }
 
     public function getPassword() :string

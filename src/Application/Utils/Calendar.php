@@ -6,13 +6,13 @@ final class Calendar
     const MONTH = 1;
     const DAY = 2;
 
-    public static function getDifferenceInYears(string $date) :int
+    public static function getDifferenceWithCurrentDateByFormat(string $date, string $format) :int
     {
         $date = new DateTime($date);
         $today = new DateTime();
         $interval = $today->diff($date);
 
-        return intval($interval->format('%y'));
+        return intval($interval->format($format));
     }
 
     public static function dateExists(string $date) :bool
