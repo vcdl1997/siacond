@@ -24,15 +24,16 @@ class SystemLogService
 
     private function response(Exception $exception) :void
     {
+        $data = ['message' => $exception->getMessage()];
         switch(get_class($exception)){
             case "BusinessException":
-                JSON::response(['message' => $exception->getMessage()], HttpStatusCode::BAD_REQUEST);
+                JSON::response($data, HttpStatusCode::BAD_REQUEST);
 
             case "NotFoundException":
-                JSON::response(['message' => $exception->getMessage()], HttpStatusCode::NOT_FOUND);
+                JSON::response($data, HttpStatusCode::NOT_FOUND);
 
             case "InvalidArgumentException": 
-                JSON::response(['message' => $exception->getMessage()], HttpStatusCode::UNPROCESSABLE_ENTITY);
+                JSON::response($data, HttpStatusCode::UNPROCESSABLE_ENTITY);
 
             case "ModelException":
             case "DatabaseErrorException":
@@ -40,7 +41,10 @@ class SystemLogService
             case "IOException":
             case "OutOfRangeException":
             case "RuntimeException": 
-                JSON::response(['message' => $exception->getMessage()], HttpStatusCode::INTERNAL_SERVER_ERROR);
+                if($exception->getMessage() == RouteError::getMessage('NOT_FOUND')){
+                    $data['errorType'] = 'Route';
+                }
+                JSON::response($data, HttpStatusCode::INTERNAL_SERVER_ERROR);
         }
     }
 }

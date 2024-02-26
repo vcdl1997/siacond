@@ -55,10 +55,13 @@ final class FileHandler
         return $code;
     }
 
-    public static function replaceFilesInHtml(string $nameFile) :string
+    public static function getContentFile(string $nameFile) :string
     {
-        $code = htmlentities(file_get_contents($nameFile));
+        return htmlentities(file_get_contents($nameFile));
+    }
 
+    public static function replaceFilesInHtml(string $code) :string
+    {
         self::replaceScripts($code);
         self::replaceStyles($code);
 
@@ -84,7 +87,9 @@ final class FileHandler
     {
         foreach(explode('"src","', $code) as $script){
             if(preg_match("/assets/", $script) && preg_match("/images/", $script)){
-                $code = str_replace("/assets", "./public/assets", $script);
+                $script = substr($script, 0, strpos($script, '"'));
+                $replace = substr($script, strpos($script, '/assets/'));
+                $code = str_replace($script, "./public/{$replace}", $code);
             }
         }
     }
@@ -101,15 +106,26 @@ final class FileHandler
 
     private static function replaceStyles(string &$html) :void
     {
+        $stylesToChange = [];
+
         foreach(explode("href", $html) as $style){
             if(
-                (preg_match("/.css/", $style) && strpos($style, "app-root") !== false) ||
-                (preg_match("/.css/", $style) && !preg_match("/public/", $style))    
+                !(preg_match("/.css/", $style) && strpos($style, "app-root") !== false) &&
+                !(preg_match("/.css/", $style) && !preg_match("/public/", $style))    
             ){
-                $style = str_replace("quot;", "", substr($style, 2, strpos($style, ".css")+1));
-                $style = explode(".", $style)[0] . ".css";
-                $html = str_replace($style, "./public/{$style}", $html);
+                continue;
             }
+
+            $style = str_replace("quot;", "", substr($style, 2, strpos($style, ".css")+1));
+            $style = strpos($style, "css") === false ? explode(".cs", $style)[0] . ".css" : $style;
+
+            if(!in_array($style, $stylesToChange)){
+                $stylesToChange[] = $style;
+            }
+        }
+
+        foreach($stylesToChange as $style){
+            $html = str_replace($style, "./public/{$style}", $html);
         }
     }
 }

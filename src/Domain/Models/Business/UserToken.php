@@ -11,6 +11,23 @@ class UserToken extends Model
     private $userId;
     private $token;
 
+    public static function build() :UserToken
+    {
+    	return new UserToken();
+    }
+
+    public function userId(int $userId) :UserToken
+    {
+        $this->setUserId($userId);
+    	return $this;
+    }
+
+    public function token(string $token) :UserToken
+    {
+        $this->setToken($token);
+    	return $this;
+    }
+
     public function getId() :int
     {
     	return $this->id;

@@ -2,7 +2,7 @@
 
 class UserRepository extends Repository
 {
-    function __construct(User $model)
+    function __construct(User $model = new User())
     {
         parent::__construct($model);
     }

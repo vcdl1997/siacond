@@ -16,7 +16,7 @@ final class ProfileRule extends Rule
     public static function getMessage(string $constant) :string
     {  
         try{
-            $language = self::getLanguage();
+            $language = Environment::getLanguage();
             $constant_reflex = new \ReflectionClassConstant(get_class(), $constant);
 
             return self::formatMessage($constant_reflex->getValue()[$language]); 

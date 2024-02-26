@@ -1,0 +1,8 @@
+#result > ul > li{
+    padding: 10px;
+}
+
+#result > ul > li:hover {
+    background-color: red;
+    cursor: pointer;
+}

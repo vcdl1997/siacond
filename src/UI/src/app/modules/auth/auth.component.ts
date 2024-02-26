@@ -1,7 +1,9 @@
 import { AuthService } from './../../data/service/auth-service.service';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Login } from 'src/app/data/schema/login';
+import { TokenUtil } from 'src/app/shared/util/token-util';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -12,11 +14,15 @@ import Swal from 'sweetalert2';
 export class AuthComponent {
 
   private readonly authService: AuthService;
+  private readonly router: Router;
 
   constructor(
-    authService: AuthService
+    authService: AuthService,
+    router :Router,
   ){
     this.authService = authService;
+    this.router = router;
+    this.redirectsIfAlreadyLoggedIn();
   }
 
   onSubmit(form: NgForm) {
@@ -35,10 +41,13 @@ export class AuthComponent {
       return;
     }
 
-    this.authService.login(login).subscribe((response) => {
-      console.log(response);
+    this.authService.login(login).subscribe((response: any) => {
+      TokenUtil.storeToken(response.token);
+      this.router.navigate(['/selecionar-condominio']);
     },
-    (err) => {console.log(err)});
+    (err) => {
+      console.log(err);
+    });
   }
 
   private validateUsername(username: string) :boolean
@@ -54,5 +63,12 @@ export class AuthComponent {
     const containsSpecialCharacters = new RegExp(/[`!@#$%^&*()_+\-=\[\]{};':\"\\|,.<>\/?~]/).test(password);
 
     return allowedSize && containsLetters && containsNumbers && containsSpecialCharacters;
+  }
+
+  private redirectsIfAlreadyLoggedIn() :void
+  {
+    if(TokenUtil.tokenExists()){
+      this.router.navigate(['/selecionar-condominio']);
+    }
   }
 }

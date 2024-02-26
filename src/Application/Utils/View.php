@@ -4,12 +4,15 @@ final class View
 {
     public static function get(string $filename) :void
     {
+        $runningInLocalhost = Environment::executionMode() === Environment::LOCAL;
         $source = getcwd();
-        $folders = DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "UI" . DIRECTORY_SEPARATOR . "dist". DIRECTORY_SEPARATOR . "ui";
-        $target = $source . $folders;
-        $destination = $source . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR;
 
-        FileHandler::clone($target, $destination);
+        if($runningInLocalhost){
+            $folders = DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "UI" . DIRECTORY_SEPARATOR . "dist". DIRECTORY_SEPARATOR . "ui";
+            $target = $source . $folders;
+            $destination = $source . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR;
+            FileHandler::clone($target, $destination);
+        }
         
         $view = $source . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR . $filename . ".html";
 
@@ -17,7 +20,11 @@ final class View
             throw new IOException(ViewError::getMessage('NOT_FOUND'));
         }
 
-        $code = FileHandler::replaceFilesInHtml($view);
+        $code = FileHandler::getContentFile($view);
+
+        if($runningInLocalhost ){
+            $code = FileHandler::replaceFilesInHtml($code);
+        }
 
         die(html_entity_decode($code));
     }

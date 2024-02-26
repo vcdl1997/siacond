@@ -5,6 +5,8 @@ final class Route{
     const URL_POSSIBILITIES = [
         "http://localhost",
         "http://localhost:80",
+        "http://localhost:8080",
+        "http://localhost:8888",
         "http://www.siacond.com.br",
         "https://www.siacond.com.br"
     ];
@@ -50,6 +52,7 @@ final class Route{
         }
 
         $resource = empty($resource) ? "/" : $resource;
+        $resource = substr($resource, 0, 1) == "/" ? $resource : "/{$resource}";
 
         foreach($routes as $route => $info)
         {
@@ -144,10 +147,10 @@ final class Route{
             'host'  => (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]",
             'method' => $method,
             'currentRoute' => $currentResource, 
-            'data' => self::getData($resource, $currentResource, $method)
+            'data' => self::getData($resource, $currentResource, $method),
+            'headers' => getallheaders()
         ];
        
-
         foreach($routes as $route => $info){
             if($currentResource == $route && $method == $info[self::METHOD]){
                 $class      = $info[self::CONTROLLER];

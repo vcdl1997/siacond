@@ -1,16 +1,16 @@
 export class TokenUtil {
 
-  tokenExists() :boolean
+  static tokenExists() :boolean
   {
     return localStorage.getItem('bearerToken') != null;
   }
 
-  getToken(bearerToken: string)
+  static getToken(bearerToken: string)
   {
     return localStorage.getItem('bearerToken');
   }
 
-  storeToken(bearerToken: string) :void
+  static storeToken(bearerToken: string) :void
   {
     localStorage.setItem('bearerToken', bearerToken);
   }

@@ -7,11 +7,6 @@ abstract class Rule
         LanguageIdentifier::ENGLISH => 'The rule being searched for was not found.'
     ];
 
-    protected static function getLanguage() :string
-    {
-    	return getenv('LANGUAGE');
-    }
-
     protected static function formatMessage(string $message) :string
     {
     	return Text::removeLineBreaks($message);

@@ -1,6 +1,6 @@
 <?php
 
-abstract class PersonBaseDto
+abstract class PersonBaseDto extends BaseDto
 {
     protected $nationalIdentifierCode;
     protected $firstname;

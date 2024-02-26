@@ -9,6 +9,7 @@ import { FooterComponent } from './layout/footer/footer.component';
 import { AuthComponent } from './modules/auth/auth.component';
 import { SelectCondominiumComponent } from './modules/select-condominium/select-condominium.component';
 import { FormsModule } from '@angular/forms';
+import { NgFor, NgIf } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { FormsModule } from '@angular/forms';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgIf,
+    NgFor,
   ],
   providers: [],
   bootstrap: [AppComponent]

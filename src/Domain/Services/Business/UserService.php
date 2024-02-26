@@ -3,10 +3,12 @@
 class UserService
 {
     private $userRepository;
+    private $userTokenService;
 
-    function __construct(User $user = new User())
+    function __construct()
     {
-        $this->userRepository = new UserRepository($user);
+        $this->userRepository = new UserRepository();
+        $this->userTokenService = new UserTokenService();
     }
 
     public function store(array $data = [], PDO $connAlternative = null) :User
@@ -48,12 +50,14 @@ class UserService
             throw new BusinessException(UserRule::getMessage('INCORRECT_PASSWORD'));
         }
 
-        $token = JWT::encode([
-            'userId' => $user->getId()
+        $token = JWT::encode([ 
+            'userId' => $user->getId() 
         ]);
 
+        $this->userTokenService->store([ 'userId' => $user->getId(), 'token' => $token ]);
+
         return [
-            "token"     => $token
+            "token" => $token
         ];
     }
 }

@@ -1,1 +1,27 @@
-<p>select-condominium works!</p>
+<div class="header">
+    <div class="brand-logo">
+        <a href="index.html">
+            <img src="/assets/images/svg/deskapp-logo.svg" alt="" class="light-logo" />
+        </a>
+    </div>
+    <div class="header-left">
+        <div class="menu-icon bi bi-list"></div>
+        <div class="search-toggle-icon bi bi-search" data-toggle="header_search"></div>
+    </div>
+</div>
+
+
+<div style="display: flex; align-items: center; justify-content: center; width: 100%; height: calc(100% - 70px);">
+    <div style="display: flex; align-items: center; justify-content: center; width: 80%; border: 1px solid; flex-wrap: wrap;">
+        <div id="search" style="width: 100%; margin: 1em;">
+            <input type="search" style="width: 100%;">
+        </div>
+        <div id="result" style="width: 100%; overflow-y: auto; height: 40vh; margin: 1em; font-size: 18px;">
+            <ul style="list-style: none;">
+                <li *ngFor="let condominium of list;">
+                    {{condominium.fantasyName}}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

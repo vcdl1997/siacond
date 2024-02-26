@@ -7,11 +7,6 @@ abstract class BaseError
         LanguageIdentifier::PORTUGUESE_BRAZIL => 'A mensagem de erro que está sendo buscada não foi encontrada.'
     ];
 
-    protected static function getLanguage() :string
-    {
-    	return getenv('LANGUAGE');
-    }
-
     protected static function formatMessage(string $message) :string
     {
     	return Text::removeLineBreaks($message);

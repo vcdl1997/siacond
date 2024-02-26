@@ -4,6 +4,10 @@ final class JSON
 {
     public static function response(mixed $data, int $statusCode) :void
     {
+        if(array_key_exists('errorType', $data)){
+            die(header("location: /"));
+        }
+
         header('Content-Type: application/json; charset=utf-8');
         http_response_code($statusCode);
         die(json_encode($data ?? [], JSON_UNESCAPED_UNICODE));
