@@ -1,8 +1,154 @@
-#result > ul > li{
+#main{
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    width: 100%; 
+    height: calc(100% - 70px); 
+    background-color: #e9edf1;
+}
+
+#search-condominiums{
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    width: 80%; 
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px; 
+    flex-wrap: wrap; 
+    border-radius: 10px; 
+    background-color: white;
+}
+
+#search-condominiums__title{
+    width: 100%; 
+    padding: 1em; 
+    margin-bottom: -1em;
+}
+
+#search-condominiums__title > h3{
+    text-align: center;
+    margin: 0; 
+    color: #334148;
+}
+
+#search-condominiums__input{
+    width: 100%; 
+    margin: 1em;
+}
+
+#search-condominiums__input > div{
+    width: 100%; 
+    padding: 7px; 
+    border: 1px solid #bdc3c7; 
+    border-radius: 5px;
+}
+
+#search-condominiums__input > div > input[type="search"]{
+    width: 100%; 
+    font-size: 18px; 
+    border: none;
+}
+
+#search-condominiums__empty-result{
+    width: 100%; 
+    height: 40vh; 
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#search-condominiums__empty-result > div {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    flex-wrap: wrap;
+    margin-top: -2.5em;
+}
+
+#search-condominiums__empty-result > div > div:nth-child(1) {
+    width: 100%; 
+    text-align: center; 
+    margin: 1em;
+}
+
+#search-condominiums__empty-result > div > div:nth-child(1) > h3 {
+    margin: 0;
+}
+
+#search-condominiums__empty-result > div > div:nth-child(2){
+    width: 100%; 
+    text-align: center;
+}
+
+#search-condominiums__empty-result > div > div:nth-child(2) > p{
+    width: 100%; 
+    text-align: center;
+    margin: 0;
+}
+
+#search-condominiums__result{
+    width: 100%; 
+    overflow-y: auto; 
+    overflow-x: none; 
+    height: 40vh; 
+    margin: 1em; 
+    font-size: 18px;
+}
+
+#search-condominiums__result > ul{
+    list-style: none; 
+    color: #334148;
+}
+
+#search-condominiums__result > ul > li{
     padding: 10px;
 }
 
-#result > ul > li:hover {
-    background-color: red;
+#search-condominiums__result > ul > li:hover {
+    background-color: #bdc3c7;
     cursor: pointer;
+    color: white;
+}
+
+#search-condominiums__result > ul > li > div {
+    display: flex; align-items: center; justify-content: start; min-width: 30%;
+}
+
+#search-condominiums__result > ul > li > div > div:nth-child(1) {
+    display: flex; 
+    align-items: center; 
+    justify-content: start;
+}
+
+#search-condominiums__result > ul > li > div > div:nth-child(2) {
+    width: 70%; 
+    padding-left: 20px; 
+    text-transform: uppercase; 
+    display: inline-block; 
+    overflow: hidden; 
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+}
+
+#search-condominiums__result::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+#search-condominiums__result::-webkit-scrollbar-track {
+    border-radius: 8px;
+    background-color: #e7e7e7;
+    border: 1px solid #cacaca;
+}
+
+#search-condominiums__result::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    background-color: white;
+    border: 1px solid #b2bec3;
+    cursor: pointer;
+}
+
+@keyframes fadeIn {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
 }

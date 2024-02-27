@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Condominium } from 'src/app/data/schema/condominium';
 import { CondominiumService } from 'src/app/data/service/condominium-service.service';
+import { environment } from 'src/environments/environment.development';
 
 @Component({
   selector: 'app-select-condominium',
@@ -9,53 +10,7 @@ import { CondominiumService } from 'src/app/data/service/condominium-service.ser
 })
 export class SelectCondominiumComponent {
 
-  private _list: Condominium[] = [
-    {
-      id: 1,
-      fantasyName: 'string',
-      logo: 'string'
-    },
-    {
-      id: 1,
-      fantasyName: 'string',
-      logo: 'string'
-    },
-    {
-      id: 1,
-      fantasyName: 'string',
-      logo: 'string'
-    },
-    {
-      id: 1,
-      fantasyName: 'string',
-      logo: 'string'
-    },
-    {
-      id: 1,
-      fantasyName: 'string',
-      logo: 'string'
-    },
-    {
-      id: 1,
-      fantasyName: 'string',
-      logo: 'string'
-    },
-    {
-      id: 1,
-      fantasyName: 'string',
-      logo: 'string'
-    },
-    {
-      id: 1,
-      fantasyName: 'string',
-      logo: 'string'
-    },
-    {
-      id: 1,
-      fantasyName: 'string',
-      logo: 'string'
-    },
-  ];
+  private _list: Condominium[] = [];
 
   constructor(
     condominiumService: CondominiumService
@@ -75,12 +30,16 @@ export class SelectCondominiumComponent {
 
   public getAll(condominiumService: CondominiumService)
   {
-    // condominiumService.getAll().subscribe((response: any) => {
-    //   this._list = response;
-    //   console.log(this._list);
-    // },
-    // (err) => {
-    //   console.log(err);
-    // });
+    condominiumService.getAll().subscribe((response: any) => {
+      this._list = response;
+    },
+    (err) => {
+      console.log(err);
+    });
+  }
+
+  public isEmpty() :boolean
+  {
+    return this._list.length == 0;
   }
 }
