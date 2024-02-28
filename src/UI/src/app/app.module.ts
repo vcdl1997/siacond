@@ -10,6 +10,7 @@ import { AuthComponent } from './modules/auth/auth.component';
 import { SelectCondominiumComponent } from './modules/select-condominium/select-condominium.component';
 import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
+import { HomeComponent } from './modules/home/home.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { NgFor, NgIf } from '@angular/common';
     FooterComponent,
     AuthComponent,
     SelectCondominiumComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

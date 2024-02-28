@@ -7,7 +7,15 @@
 </div>
 
 <div id="main">
-    <div id="search-condominiums">
+    <div id="loading" *ngIf="loading">
+        <div>
+            <h3>Carregando...</h3>
+        </div>
+        <div>
+            <div class="loader"></div>
+        </div>
+    </div>
+    <div id="search-condominiums" *ngIf="!loading">
         <div id="search-condominiums__title">
             <h3>Em qual condomínio você está?</h3>
         </div>
@@ -16,7 +24,6 @@
                 <input type="search">
             </div>
         </div>
-
         <div id="search-condominiums__empty-result" *ngIf="isEmpty()">
             <div>
                 <div>
@@ -27,10 +34,9 @@
                 </div>
             </div>
         </div>
-
         <div id="search-condominiums__result" *ngIf="!isEmpty()">
             <ul>
-                <li *ngFor="let condominium of list;">
+                <li *ngFor="let condominium of list;" (click)="redirectHome(condominium.id)">
                     <div>
                         <div>
                             <img src="{{condominium.logo}}" alt="{{condominium.fantasyName}}" width="100px">

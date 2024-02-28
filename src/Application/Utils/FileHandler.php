@@ -85,12 +85,22 @@ final class FileHandler
 
     private static function replaceImagesInJs(string &$code) :void
     {
+        $imagesToChange = [];
+
         foreach(explode('"src","', $code) as $script){
             if(preg_match("/assets/", $script) && preg_match("/images/", $script)){
                 $script = substr($script, 0, strpos($script, '"'));
                 $replace = substr($script, strpos($script, '/assets/'));
-                $code = str_replace($script, "./public/{$replace}", $code);
+                $replace = str_replace('\\\\', '\\', implode("/", array_unique(explode("/", $replace))));
+
+                if(!in_array($replace, $imagesToChange)){
+                    $imagesToChange[] = $replace;
+                }
             }
+        }
+
+        foreach($imagesToChange as $image){
+            $code = str_replace($image, "./public/{$image}", $code);
         }
     }
 
