@@ -2,20 +2,17 @@
 
 class PersonRepositoryFactory
 {
-    const RESIDENT = '1';
-    const EMPLOYEE =  '2';
-
     public static function getRepository(string $typeOfPerson = '') :PersonRepository
     {
-        if(!in_array($typeOfPerson, [self::RESIDENT, self::EMPLOYEE])){
+        if(!in_array($typeOfPerson, [PersonBase::RESIDENT, PersonBase::EMPLOYEE])){
             throw new BusinessException(PersonRule::getMessage('INVALID_PERSON_TYPE'));
         }
 
         switch($typeOfPerson){
-            case self::RESIDENT: 
+            case PersonBase::RESIDENT: 
                 return new ResidentRepository();
 
-            case self::EMPLOYEE:
+            case PersonBase::EMPLOYEE:
                 return new EmployeeRepository();
         }
     }

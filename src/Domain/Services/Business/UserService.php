@@ -31,16 +31,21 @@ class UserService
     {
         $username = Request::data_get($data, 'username', '');
         $password = Request::data_get($data, 'password', '');
+        $typeOfPerson = Request::data_get($data, 'typeOfPerson', '');
 
         if(empty($username) || empty($username)){
             throw new BusinessException(UserRule::getMessage('NOT_PROVIDED'));
         }
 
-        if(!$this->userRepository->existsUsersWithThisUsername($username)){
-            throw new NotFoundException(UserRule::getMessage('NOT_FOUND'));
+        if(!in_array($typeOfPerson, [PersonBase::RESIDENT, PersonBase::EMPLOYEE])){
+            throw new BusinessException(UserRule::getMessage('INVALID_PERSON_TYPE'));
         }
 
-        $user = $this->userRepository->getByUsername($username);
+        $user = $this->userRepository->getByUsernameAndTypeOfPerson($username, $typeOfPerson);
+
+        if(empty($user)){
+            throw new NotFoundException(UserRule::getMessage('NOT_FOUND'));
+        }
 
         if (!$user->getActive()) {
             throw new BusinessException(UserRule::getMessage('INACTIVATED'));

@@ -14,6 +14,9 @@ abstract class PersonBase extends Model
     const MAXIMUM_SIZE_LASTNAME = 200;
     const MINIMUM_AGE_TO_USE_THE_SYSTEM = 14;
 
+    const RESIDENT = '1';
+    const EMPLOYEE =  '2';
+
     protected $nationalIdentifierCode;
     protected $firstname;
     protected $lastname;

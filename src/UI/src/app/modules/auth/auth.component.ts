@@ -2,6 +2,7 @@ import { AuthService } from './../../data/service/auth-service.service';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Person } from 'src/app/core/enums/Person';
 import { Login } from 'src/app/data/schema/login';
 import { TokenUtil } from 'src/app/shared/util/token-util';
 import Swal from 'sweetalert2';
@@ -15,6 +16,11 @@ export class AuthComponent {
 
   private readonly authService: AuthService;
   private readonly router: Router;
+  private login: Login = {
+    'username': '',
+    'password': '',
+    'typeOfPerson': ''
+  };
 
   constructor(
     authService: AuthService,
@@ -27,27 +33,42 @@ export class AuthComponent {
 
   onSubmit(form: NgForm) {
     const {username, password} = form.value;
-    const login: Login = {
-      'username': username,
-      'password': password
-    };
 
-    if(!this.validateUsername(username) || !this.validatePassword(password)){
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: "Usuário ou Senha Inválidos!",
-      });
+    this.login.username = username;
+    this.login.password = password;
+
+    if(!this.validateTypeOfPerson(this.login.typeOfPerson)){
+      Swal.fire({ icon: "error", title: "Oops...", text: "Informe o Tipo do Usuário!" });
       return;
     }
 
-    this.authService.login(login).subscribe((response: any) => {
+    if(!this.validateUsername(username) || !this.validatePassword(password)){
+      Swal.fire({ icon: "error", title: "Oops...", text: "Usuário ou Senha Inválidos!" });
+      return;
+    }
+
+    this.authService.login(this.login).subscribe((response: any) => {
       TokenUtil.storeToken(response.token);
       this.router.navigate(['/selecionar-condominio']);
     },
     (err) => {
-      console.log(err);
+      Swal.fire({ icon: "error", title: "Oops...", text: err.error.message });
+      return;
     });
+  }
+
+  setTypeOfPerson(typeOfPerson: string) :void {
+    this.login.typeOfPerson = typeOfPerson;
+  }
+
+  private validateTypeOfPerson(typeOfPerson: string) :boolean
+  {
+    const options: Array<String> = [
+      Person.RESIDENT, 
+      Person.EMPLOYEE
+    ];
+
+    return typeOfPerson.length > 0 && options.indexOf(typeOfPerson) > -1;
   }
 
   private validateUsername(username: string) :boolean

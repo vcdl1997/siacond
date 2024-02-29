@@ -24,11 +24,10 @@ abstract class Controller{
     private function embedLoggedInUserInData() :void
     {
         $token = Request::data_get($this->data[self::HEADERS], "Authorization", "");
-
+        
         if(!empty($token)){
-            $token = str_replace("Bearer ", "", $token);
-            $user = $this->userTokenService->getUserByToken($token);
-            $this->data[self::RECEIVED]['userId'] = $user->getId();
+            $data = JWT::decode(str_replace("Bearer ", "", $token));
+            $this->data[self::RECEIVED]['userId'] = $data['userId'];
         }
     }
 }

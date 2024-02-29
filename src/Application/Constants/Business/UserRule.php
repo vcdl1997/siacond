@@ -21,6 +21,11 @@ final class UserRule extends Rule
         LanguageIdentifier::PORTUGUESE_BRAZIL => "Usuário inativo, entre em contato com a administração do seu condominio.",
         LanguageIdentifier::ENGLISH => "Inactive user, contact your condominium administration."
     ];
+
+    const INVALID_PERSON_TYPE = [
+        LanguageIdentifier::PORTUGUESE_BRAZIL => "Só é possível a realização de login com as visões de: Morador e/ou Funcionário.",
+        LanguageIdentifier::ENGLISH => "It is only possible to log in with the views of: Resident and/or Employee.",
+    ];
     
     const USERNAME_IN_USE = [
         LanguageIdentifier::PORTUGUESE_BRAZIL => "O valor informado no campo “usuário” já está sendo utilizado.",
