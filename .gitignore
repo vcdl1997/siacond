@@ -1,4 +1,4 @@
 src/UI/node_modules
 src/UI/package-lock.json
 src/UI/.vscode
-src/UI/dist
+src/UI/dist/*
