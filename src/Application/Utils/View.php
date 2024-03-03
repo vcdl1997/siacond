@@ -24,6 +24,7 @@ final class View
 
         if($runningInLocalhost ){
             $code = FileHandler::replaceFilesInHtml($code);
+            file_put_contents($view, html_entity_decode($code));
         }
 
         die(html_entity_decode($code));
