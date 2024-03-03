@@ -11,6 +11,7 @@ import { SelectCondominiumComponent } from './modules/select-condominium/select-
 import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
 import { HomeComponent } from './modules/home/home.component';
+import { MenubarComponent } from './layout/menubar/menubar.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { HomeComponent } from './modules/home/home.component';
     AuthComponent,
     SelectCondominiumComponent,
     HomeComponent,
+    MenubarComponent,
   ],
   imports: [
     BrowserModule,
