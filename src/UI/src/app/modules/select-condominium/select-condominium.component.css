@@ -150,14 +150,14 @@
 #search-condominiums__result > ul > li > div {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
   min-width: 30%;
 }
 
 #search-condominiums__result > ul > li > div > div:nth-child(1) {
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 #search-condominiums__result > ul > li > div > div:nth-child(2) {

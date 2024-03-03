@@ -1,13 +1,15 @@
-<div id="horizontal-menu">
+<div id="horizontal-menu__content">
   <div>
     <div>
-      <a href="index.html">
-        <img src="/assets/images/svg/deskapp-logo.svg" alt="" class="light-logo" width="180px"/>
+      <a [routerLink]="['/home']">
+        <img src="/assets/images/svg/deskapp-logo.svg" alt="" class="light-logo" width="180px" />
       </a>
     </div>
     <div>
       <label for="checkbox-menu" [ngClass]="{'hide-element': !showOptionsMenu}">
-        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAATpJREFUaEPt2LEuRUEUheHvViqdUqIQhadQaiSixkPQkVCQ0PEQqEWiUXoKhSgkSp1KxVVclVwzJ5mbnZk59Z49a63/nJ0zM1LJM6rEh24kGslOpBMplEB/tQoFO7htJzI4ukILmyDyY3IZa1goFGRq23c84gVffy2aRmRzbOQK86m7Fa77GBvZxV2ukSOcFBaX2/4Yp7lGtnGdu1Ph+h3c5BqZwzpWC4tLbf+EB3zmGkndIERdE+M3RNKpIjqR1KRmVdcEkSVcYmtWqf6zzy328Jo7fg9wFsTERMYhzps1soILbAShco99POcSCaI/TUYTUystiiBVnUgQEL8ymiBSzcGqmqNuNZcP1VwHTS7oFoNMqLehF3RB9KfJaGL8pkURpKoTCQKirV+UaKFP1dO/kWi4OpFOpFAC3+7WJTN6vQw0AAAAAElFTkSuQmCC" alt="">
+        <img
+          src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAATpJREFUaEPt2LEuRUEUheHvViqdUqIQhadQaiSixkPQkVCQ0PEQqEWiUXoKhSgkSp1KxVVclVwzJ5mbnZk59Z49a63/nJ0zM1LJM6rEh24kGslOpBMplEB/tQoFO7htJzI4ukILmyDyY3IZa1goFGRq23c84gVffy2aRmRzbOQK86m7Fa77GBvZxV2ukSOcFBaX2/4Yp7lGtnGdu1Ph+h3c5BqZwzpWC4tLbf+EB3zmGkndIERdE+M3RNKpIjqR1KRmVdcEkSVcYmtWqf6zzy328Jo7fg9wFsTERMYhzps1soILbAShco99POcSCaI/TUYTUystiiBVnUgQEL8ymiBSzcGqmqNuNZcP1VwHTS7oFoNMqLehF3RB9KfJaGL8pkURpKoTCQKirV+UaKFP1dO/kWi4OpFOpFAC3+7WJTN6vQw0AAAAAElFTkSuQmCC"
+          alt="">
       </label>
     </div>
   </div>
@@ -17,15 +19,40 @@
 
 <input type="checkbox" id="checkbox-menu">
 
-<nav id="vertical-menu">
+<nav id="vertical-menu__content">
   <ul>
-    <li>1</li>
-    <li>2</li>
-    <li>3</li>
-    <li>4</li>
-    <li>5</li>
-    <li>6</li>
+    <li *ngFor="let item of menu; index as i;" class="vertical-menu__item">
+
+      <label *ngIf="item.screens.length == 0" class="does-not-have-children" for="checkbox-subitem-{{i+1}}" (click)="navigate(item.url)">
+        {{item.description}}
+      </label>
+
+      <label *ngIf="item.screens.length > 0" for="checkbox-subitem-{{i+1}}" (click)="toggleClass($event)">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            {{item.description}}
+          </div>
+          <div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
+              <path fill="currentColor"
+                d="M17 9.17a1 1 0 0 0-1.41 0L12 12.71L8.46 9.17a1 1 0 0 0-1.41 0a1 1 0 0 0 0 1.42l4.24 4.24a1 1 0 0 0 1.42 0L17 10.59a1 1 0 0 0 0-1.42" />
+            </svg>
+          </div>
+        </div>
+      </label>
+
+      <input type="checkbox" id="checkbox-subitem-{{i+1}}" name="checkbox_subitem">
+
+      <div *ngIf="item.screens.length > 0">
+        <ul>
+          <li *ngFor="let subitem of item.screens;" class="vertical-menu__subitem" (click)="navigate(subitem.url)">
+            <label>
+              {{subitem.description}}
+            </label>
+          </li>
+        </ul>
+      </div>
+
+    </li>
   </ul>
 </nav>
-
-
