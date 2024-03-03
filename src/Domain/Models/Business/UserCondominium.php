@@ -5,6 +5,7 @@ class UserCondominium extends Model
     const TABLE = 'TB_USER_CONDOMINIUM';
     const USER_ID = 'USER_ID';
     const CONDOMINIUM_ID = 'CONDOMINIUM_ID';
+    const ACTIVE = 'ACTIVE';
     
     private $userId;
     private $condominiumId;

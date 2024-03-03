@@ -9,9 +9,14 @@ class UserRepository extends Repository
 
     public function existsUsersWithThisUsername(string $username) :bool
     {
-        $sql = "SELECT COUNT(*) as existing_users FROM " . $this->model->getTable() . " WHERE USERNAME = :USERNAME";
+        $sql = "
+            SELECT 
+                COUNT(*) as existing_users 
+            FROM " . User::TABLE . " as user
+            WHERE user." . User::USERNAME . " = :" . User::USERNAME . "
+        ";
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([":USERNAME" => $username]);
+        $stmt->execute([":" . User::USERNAME => $username]);
         $result = $stmt->fetch(PDO::FETCH_LAZY);
 
         return $result->existing_users > 0;
@@ -25,17 +30,17 @@ class UserRepository extends Repository
                 user." . User::USERNAME . " AS username,
                 user." . User::PASSWORD . " AS password,
                 user." . User::ACTIVE . " AS active 
-            FROM " . $this->model->getTable() . " AS user
-            WHERE USERNAME = :USERNAME
+            FROM " . User::TABLE . " AS user
+            WHERE user." . User::USERNAME . " = :" . User::USERNAME . "
         ";
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([":USERNAME" => $username]);
+        $stmt->execute([":" . User::USERNAME => $username]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
         
         return $stmt->fetch();
     }
 
-    public function getByUsernameAndTypeOfPerson(string $username, string $typeOfPerson) :mixed
+    public function getByUsernameAndTypeOfPersonAndThatIsRelatedToCondominiums(string $username, string $typeOfPerson) :mixed
     {        
         $join = [
             PersonBase::RESIDENT => "INNER JOIN " . Resident::TABLE . " AS resident ON resident." . Resident::USER_ID . " = user." . User::ID,
@@ -48,13 +53,24 @@ class UserRepository extends Repository
                 user." . User::USERNAME . " AS username,
                 user." . User::PASSWORD . " AS password,
                 user." . User::ACTIVE . " AS active 
-            FROM " . $this->model->getTable() . " AS user
+            FROM " . User::TABLE . " AS user
             " . $join[$typeOfPerson] ."
-            WHERE USERNAME = :USERNAME 
+            WHERE user." . User::USERNAME . " = :" . User::USERNAME . " 
+            AND user." . User::ACTIVE . " = :" . User::ACTIVE . " 
+            AND EXISTS (
+                SELECT 
+                    " . UserCondominium::USER_ID . " 
+                FROM " . UserCondominium::TABLE . " as user_condominium 
+                WHERE user_condominium." . UserCondominium::USER_ID . " = user." . User::ID . "
+                AND user_condominium." . UserCondominium::ACTIVE . " = :" . UserCondominium::ACTIVE . "
+            )
         ";
         
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([":USERNAME" => $username]);
+        $stmt->execute([
+            ":" . User::USERNAME => $username,
+            ":" . User::ACTIVE => true
+        ]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
         
         return $stmt->fetch();

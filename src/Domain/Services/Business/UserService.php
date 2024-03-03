@@ -41,7 +41,7 @@ class UserService
             throw new BusinessException(UserRule::getMessage('INVALID_PERSON_TYPE'));
         }
 
-        $user = $this->userRepository->getByUsernameAndTypeOfPerson($username, $typeOfPerson);
+        $user = $this->userRepository->getByUsernameAndTypeOfPersonAndThatIsRelatedToCondominiums($username, $typeOfPerson);
 
         if(empty($user)){
             throw new NotFoundException(UserRule::getMessage('NOT_FOUND'));
@@ -55,11 +55,19 @@ class UserService
             throw new BusinessException(UserRule::getMessage('INCORRECT_PASSWORD'));
         }
 
+        return $this->generateToken($user);
+    }
+
+    private function generateToken(User $user) :array
+    {
         $token = JWT::encode([ 
             'userId' => $user->getId() 
         ]);
 
-        $this->userTokenService->store([ 'userId' => $user->getId(), 'token' => $token ]);
+        $this->userTokenService->store([ 
+            'userId' => $user->getId(), 
+            'token' => $token 
+        ]);
 
         return [
             "token" => $token
