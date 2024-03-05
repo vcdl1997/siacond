@@ -39,7 +39,6 @@ final class Route{
         return $routes;
     }
 
-
     public static function getCurrentRoute(string $method, string $resource, array $routes) :string
     {
         $possibilities = array_merge(["http://" . gethostbynamel(gethostname())[0]], self::URL_POSSIBILITIES);
@@ -138,7 +137,14 @@ final class Route{
         return $_SERVER['REQUEST_METHOD'];
     } 
 
-    public static function execute(string $resource) :mixed
+    public function validate() :Route
+    {
+        Firewall::execute();
+
+        return $this;
+    }
+
+    public function execute(string $resource) :mixed
     {
         $routes = self::getRoutes();
         $method = self::getMethod();

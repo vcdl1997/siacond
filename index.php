@@ -18,8 +18,12 @@ $resource = (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HO
 // ]);
 
 try{
-    Route::execute($resource);
+
+    $route = new Route();
+    $route->validate()->execute($resource);
+
 }catch(Exception $e ){
+
     $systemLog = SystemLog::build($e)
         ->exception(get_class($e))
         ->message($e->getMessage())
@@ -27,6 +31,7 @@ try{
         ->line($e->getLine())
         ->trace($e->getTraceAsString())
     ;
+    
     $systemLogService = new SystemLogService($systemLog);
     $systemLogService->handleException($e);
 }
