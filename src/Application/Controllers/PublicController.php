@@ -19,7 +19,7 @@ class PublicController extends Controller{
 
     public function authentication()
     {
-        $retorno = $this->userService->authentication($this->data[self::RECEIVED]);
-        JSON::response($retorno, HttpStatusCode::OK);
+        $output = $this->userService->authentication($this->data[self::RECEIVED]);
+        JSON::response($output, HttpStatusCode::OK);
     }
 }
