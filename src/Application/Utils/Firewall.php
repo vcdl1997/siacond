@@ -2,7 +2,7 @@
 
 final class Firewall
 {
-    const BLACKLIST = "blacklist.txt";
+    const BLACKLIST = "blacklist";
     const PRIMARY_SOURCE = "https://www.dan.me.uk/torlist/?full";
     const SECONDARY_SOURCE = "https://raw.githubusercontent.com/SecOps-Institute/Tor-IP-Addresses/master/tor-exit-nodes.lst";
 
@@ -17,27 +17,38 @@ final class Firewall
         }
     }
 
+    private static function getIpsPrimarySource() :array
+    {
+        try{
+            return explode("\n", @file_get_contents(self::PRIMARY_SOURCE));
+        }catch(Exception $e){
+            return [];
+        }
+    }
+
+    private static function getIpsSecondarySource() :array
+    {
+        try{
+            return explode("\n", @file_get_contents(self::SECONDARY_SOURCE));
+        }catch(Exception $e){
+            return [];
+        }
+    }
+
     private static function getIpsBlacklist() :array
     {
-        $blacklistFilePath = getcwd() . DIRECTORY_SEPARATOR . self::BLACKLIST;
-        $fileExists = file_exists($blacklistFilePath);
-        $updateTorBlacklist = $fileExists ? date('Y-m-d', filectime($blacklistFilePath)) !== date('Y-m-d') : true;
+        $updatedFilePath = getcwd() . DIRECTORY_SEPARATOR . self::BLACKLIST . '_' . date('Y-m-d') . '.txt';
+        $outdatedFilePath = getcwd() . DIRECTORY_SEPARATOR . self::BLACKLIST . '_' . date("Y-m-d", strtotime("-1 day")) . '.txt';
+        $fileExists = file_exists($updatedFilePath);
 
-        if($updateTorBlacklist){
-            $ipsPrimarySource = file_get_contents(self::PRIMARY_SOURCE);
-            $ipsSecondarySource = file_get_contents(self::SECONDARY_SOURCE);
-            $arrIpsPrimarySource = explode("\n", $ipsPrimarySource);
-            $arrIpsSecondarySource = explode("\n", $ipsSecondarySource);
-
-            if($fileExists){
-                unlink($blacklistFilePath);
-            }
-            
-            $newBlacklist = fopen(self::BLACKLIST,'w');
-            fwrite($newBlacklist, implode("\n", array_unique(array_merge($arrIpsPrimarySource, $arrIpsSecondarySource))));
+        if(!$fileExists){
+            $arrIps = array_unique(array_merge(self::getIpsPrimarySource(), self::getIpsSecondarySource()));
+            unlink($outdatedFilePath);
+            $newBlacklist = fopen(self::BLACKLIST . '_' . date('Y-m-d') . '.txt','w');
+            fwrite($newBlacklist, implode("\n",  $arrIps));
         }
 
-        return explode("\n", file_get_contents($blacklistFilePath));
+        return explode("\n", file_get_contents($updatedFilePath));
     }
 
     public static function execute() :void

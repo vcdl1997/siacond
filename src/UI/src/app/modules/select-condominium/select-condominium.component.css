@@ -32,7 +32,7 @@
   margin: 0;
   text-align: center;
   animation: fadeIn 4s infinite;
-  color: #3b9ada;
+  color: #334148;
 }
 
 #loading > div:nth-child(2) {
@@ -64,7 +64,7 @@
 #search-condominiums__title > h3 {
   text-align: center;
   margin: 0;
-  color: #3b9ada;
+  color: #334148;
 }
 
 #search-condominiums__input {
@@ -76,7 +76,7 @@
   width: 100%;
   padding: 7px;
   border: 1px solid #bdc3c7;
-  border-radius: 5px;
+  border-radius: 10px;
 }
 
 #search-condominiums__input > div > input[type="search"] {
@@ -142,7 +142,8 @@
 }
 
 #search-condominiums__result > ul > li:hover {
-  background-color: #3b9ada;
+  background-color: #334148;
+  border-radius: 10px;
   cursor: pointer;
   color: white;
 }
@@ -158,6 +159,10 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+}
+
+#search-condominiums__result > ul > li > div > div:nth-child(1) > img{
+  height: 44px;
 }
 
 #search-condominiums__result > ul > li > div > div:nth-child(2) {

@@ -20,17 +20,17 @@
 <input type="checkbox" id="checkbox-menu">
 
 <nav id="vertical-menu__content">
-  <ul>
-    <li *ngFor="let item of menu; index as i;" class="vertical-menu__item">
+  <div>
+    <div *ngFor="let item of menu; index as i;" class="vertical-menu__item">
 
       <label *ngIf="item.screens.length == 0" class="does-not-have-children" for="checkbox-subitem-{{i+1}}" (click)="navigate(item.url)">
-        {{item.description}}
+        <span class="icon"><i class="{{item.icon}}"></i>&nbsp;&nbsp;{{item.description}}</span>
       </label>
 
       <label *ngIf="item.screens.length > 0" for="checkbox-subitem-{{i+1}}" (click)="toggleClass($event)">
         <div style="display: flex; align-items: center; justify-content: space-between;">
           <div>
-            {{item.description}}
+            <span class="icon"><i class="{{item.icon}}"></i>&nbsp;&nbsp;{{item.description}}</span>
           </div>
           <div>
             <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24">
@@ -44,15 +44,44 @@
       <input type="checkbox" id="checkbox-subitem-{{i+1}}" name="checkbox_subitem">
 
       <div *ngIf="item.screens.length > 0">
-        <ul>
-          <li *ngFor="let subitem of item.screens;" class="vertical-menu__subitem" (click)="navigate(subitem.url)">
+        <div>
+          <div *ngFor="let subitem of item.screens;" class="vertical-menu__subitem" (click)="navigate(subitem.url)">
             <label>
-              {{subitem.description}}
+              <span class="icon"><i class="{{subitem.icon}}"></i>&nbsp;&nbsp;{{subitem.description}}</span>
             </label>
-          </li>
-        </ul>
+          </div>
+        </div>
       </div>
 
-    </li>
-  </ul>
+    </div>
+  </div>
 </nav>
+
+<div id="user-informations__content">
+  <label for="checkbox-user-options">
+    <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="" width="50px">
+  </label>
+</div>
+
+<input type="checkbox" id="checkbox-user-options">
+
+<div id="user-options__content">
+  <div>
+    <div>
+      <div style="width: auto;">
+        Meu Perfil
+      </div>
+      <div style="width: auto;">
+        <i class="fa-regular fa-user"></i>
+      </div>
+    </div>
+    <div>
+      <div style="width: auto;">
+        Sair
+      </div>
+      <div style="width: auto;">
+        <i class="fa-regular fa-right-from-bracket"></i>
+      </div>
+    </div>
+  </div>
+</div>

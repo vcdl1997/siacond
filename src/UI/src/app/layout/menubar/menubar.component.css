@@ -2,11 +2,121 @@
   width: 100%;
   height: 70px;
   position: fixed;
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid #334148;
   display: flex;
   justify-content: space-around;
   align-items: center;
   background-color: white;
+}
+
+#user-informations__content{
+  width: 30%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: 70px;
+}
+
+#user-informations__content > label{
+  margin-right: 20px;
+  margin-left: 0;
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+#user-informations__content > label > img{
+  opacity: 1;
+	-webkit-transition: .3s ease-in-out;
+	transition: .3s ease-in-out;
+}
+
+#user-informations__content > label > img:hover{
+  cursor: pointer;
+  opacity: .5;
+}
+
+#checkbox-user-options{
+  display: none;
+}
+
+#user-options__content{
+  display: none;
+  position: fixed;
+  top: 70px;
+  right: 0;
+  background-color: #ffffff;
+  width: 15%;
+  border-left: 1px solid #334148;
+  border-bottom: 1px solid hsl(200, 17%, 24%);
+}
+
+#user-options__content > div{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+#user-options__content > div > div{
+  width: 100%;
+  padding: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#user-options__content > div > div:hover{
+  background-color: #334148;
+  cursor: pointer;
+  color: white;
+  font-weight: bold;
+}
+
+@-webkit-keyframes swing-in-top-fwd {
+  0% {
+    -webkit-transform: rotateX(-100deg);
+            transform: rotateX(-100deg);
+    -webkit-transform-origin: top;
+            transform-origin: top;
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+    -webkit-transform-origin: top;
+            transform-origin: top;
+    opacity: 1;
+  }
+}
+@keyframes swing-in-top-fwd {
+  0% {
+    -webkit-transform: rotateX(-100deg);
+            transform: rotateX(-100deg);
+    -webkit-transform-origin: top;
+            transform-origin: top;
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: rotateX(0deg);
+            transform: rotateX(0deg);
+    -webkit-transform-origin: top;
+            transform-origin: top;
+    opacity: 1;
+  }
+}
+
+#checkbox-user-options:checked ~ #user-options__content {
+  display: block;
+  -webkit-animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) both;
+  animation: swing-in-top-fwd 0.5s cubic-bezier(0.175, 0.885, 0.320, 1.275) both;
+}
+
+.icon{
+  margin-left: 10px !important;
 }
 
 label[for="checkbox-menu"]{
@@ -30,8 +140,13 @@ label[for="checkbox-menu"] > img:hover{
   overflow: hidden;
 }
 
-#vertical-menu__content > ul{
+#vertical-menu__content > div{
   margin-top: 10px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 #vertical-menu__content:hover{
@@ -57,13 +172,13 @@ label[for="checkbox-menu"] > img:hover{
   cursor: pointer;
 }
 
-#vertical-menu__content > ul{
+#vertical-menu__content > div{
   background-color: #ffffff;
   color: black;
 }
 
-#vertical-menu__content > ul > .vertical-menu__item{
-  width: 100%;
+#vertical-menu__content > div > .vertical-menu__item{
+  width: 95%;
   color: black;
 }
 
@@ -85,6 +200,7 @@ label[for="checkbox-menu"] > img:hover{
 .vertical-menu__subitem:hover{
   border-radius: 10px;
   background-color: #334148;
+  font-weight: bold;
   cursor: pointer;
   color: white;
   animation: fadeIn 1s;
@@ -120,7 +236,7 @@ input[name="checkbox_subitem"]{
   display: none;
 }
 
-input[name="checkbox_subitem"]:checked ~ div > ul > .vertical-menu__subitem{
+input[name="checkbox_subitem"]:checked ~ div > div > .vertical-menu__subitem{
   display: block;
 }
 
@@ -161,7 +277,7 @@ input[name="checkbox_subitem"]:checked ~ div > ul > .vertical-menu__subitem{
     color: black;
   }
 
-  #vertical-menu__content > ul{
+  #vertical-menu__content > div{
     background-color: #ffffff;
     color: black;
   }
@@ -187,6 +303,10 @@ input[name="checkbox_subitem"]:checked ~ div > ul > .vertical-menu__subitem{
 }
 
 @media (min-width: 768px) and (max-width: 1024px) {
+  #user-options__content{
+    width: 150px;
+  }
+
   #horizontal-menu__content > div:nth-child(1){
     display: flex;
     justify-content: flex-start;
@@ -230,6 +350,10 @@ input[name="checkbox_subitem"]:checked ~ div > ul > .vertical-menu__subitem{
 }
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
+  #user-options__content{
+    width: 150px;
+  }
+
   #horizontal-menu__content > div:nth-child(1){
     display: flex;
     justify-content: flex-start;
@@ -273,6 +397,10 @@ input[name="checkbox_subitem"]:checked ~ div > ul > .vertical-menu__subitem{
 }
 
 @media (min-width: 481px) and (max-width: 767px) {
+  #user-options__content{
+    width: 150px;
+  }
+
   #horizontal-menu__content > div:nth-child(1){
     display: flex;
     justify-content: flex-start;
@@ -316,6 +444,10 @@ input[name="checkbox_subitem"]:checked ~ div > ul > .vertical-menu__subitem{
 }
 
 @media (min-width: 320px) and (max-width: 480px) {
+  #user-options__content{
+    width: 150px;
+  }
+
   #horizontal-menu__content > div:nth-child(1){
     display: flex;
     justify-content: flex-start;
