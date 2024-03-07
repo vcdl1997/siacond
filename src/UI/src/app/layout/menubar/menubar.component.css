@@ -259,7 +259,6 @@ input[name="checkbox_subitem"]:checked ~ div > div > .vertical-menu__subitem{
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    width: 20%;
   }
 
   #horizontal-menu__content > div:nth-child(2){
@@ -304,7 +303,7 @@ input[name="checkbox_subitem"]:checked ~ div > div > .vertical-menu__subitem{
 
 @media (min-width: 768px) and (max-width: 1024px) {
   #user-options__content{
-    width: 150px;
+    width: 25%;
   }
 
   #horizontal-menu__content > div:nth-child(1){
@@ -351,7 +350,7 @@ input[name="checkbox_subitem"]:checked ~ div > div > .vertical-menu__subitem{
 
 @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {
   #user-options__content{
-    width: 150px;
+    width: 20%;
   }
 
   #horizontal-menu__content > div:nth-child(1){
@@ -398,7 +397,7 @@ input[name="checkbox_subitem"]:checked ~ div > div > .vertical-menu__subitem{
 
 @media (min-width: 481px) and (max-width: 767px) {
   #user-options__content{
-    width: 150px;
+    width: 35%;
   }
 
   #horizontal-menu__content > div:nth-child(1){
@@ -445,7 +444,7 @@ input[name="checkbox_subitem"]:checked ~ div > div > .vertical-menu__subitem{
 
 @media (min-width: 320px) and (max-width: 480px) {
   #user-options__content{
-    width: 150px;
+    width: 40%;
   }
 
   #horizontal-menu__content > div:nth-child(1){
