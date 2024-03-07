@@ -133,9 +133,11 @@ final class FileHandler
                 $stylesToChange[] = $style;
             }
         }
-
+        
         foreach($stylesToChange as $style){
-            $html = str_replace($style, "./public/{$style}", $html);
+            if(strpos($style, "https") === false){
+                $html = str_replace($style, "./public/{$style}", $html);
+            }
         }
     }
 }
