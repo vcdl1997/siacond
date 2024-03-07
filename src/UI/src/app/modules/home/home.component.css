@@ -2,4 +2,7 @@ main{
   width: 100vw;
   height: 100vh;
   background-color: #e9edf1;
+  position: fixed;
+  margin-top: 70px;
+  overflow-y: auto;
 }
