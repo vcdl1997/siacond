@@ -13,6 +13,7 @@ final class Route{
     const METHOD = 0;
     const CONTROLLER = 1;
     const FUNCTION = 2;
+    const PERMISSIONS = 3;
 
     
     private static function getRoutes() :array
@@ -150,18 +151,19 @@ final class Route{
         $method = self::getMethod();
         $currentResource = self::getCurrentRoute($method, $resource, $routes);
         $received = [
-            'host'  => (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]",
-            'method' => $method,
-            'currentRoute' => $currentResource, 
-            'data' => self::getData($resource, $currentResource, $method),
-            'headers' => getallheaders()
+            Controller::HOST => (empty($_SERVER['HTTPS']) ? 'http' : 'https') . "://$_SERVER[HTTP_HOST]",
+            Controller::METHOD => $method,
+            Controller::CURRENT_ROUTE => $currentResource, 
+            Controller::RECEIVED => self::getData($resource, $currentResource, $method),
+            Controller::HEADERS => getallheaders(),
+            Controller::PERMISSIONS_REQUIRED => []
         ];
        
         foreach($routes as $route => $info){
             if($currentResource == $route && $method == $info[self::METHOD]){
-                $class      = $info[self::CONTROLLER];
-                $function   = $info[self::FUNCTION];
-
+                $class = $info[self::CONTROLLER];
+                $function = $info[self::FUNCTION];
+                $received[Controller::PERMISSIONS_REQUIRED] = $info[self::PERMISSIONS];
                 $controller = new $class($received);
 
                 if(!method_exists($controller, $function)){

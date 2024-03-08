@@ -7,6 +7,7 @@ abstract class Controller{
     const CURRENT_ROUTE = "currentRoute";
     const RECEIVED = "data";
     const HEADERS = "headers";
+    const PERMISSIONS_REQUIRED = "permissionsRequired";
 
     protected $data;
     protected $userTokenService;

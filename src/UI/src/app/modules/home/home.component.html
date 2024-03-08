@@ -1,61 +1,28 @@
 <app-menubar [showOptionsMenu]="true"></app-menubar>
 <main>
-  <div style="display: flex; width: 100%; justify-content: space-between; padding: 2em; align-items: center; flex-wrap: wrap; margin-top: -10px;">
-
-    <div style="width: 100%; display: flex; align-items: center; justify-content: space-evenly; margin: 1em; text-align: left;">
-      <h3 style="width: 100%;">Visão Geral do Condominio</h3>
+  <div id="cards__content">
+    <div id="cards__content-title">
+      <h3>Visão Geral: {{condominiumName}}</h3>
     </div>
-
-    <div style="display: flex; align-items: center; justify-content: space-between; width: 300px; height: 100px; background-color: #ffffff; margin: 1em; border-radius: 10px; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;">
-      <div style="width: 75%; margin-left: 20px; font-weight: bold; display: flex; justify-content: center; align-items: center; flex-wrap: wrap;">
-        <h4 style="font-size: 22px; margin: 0; padding: 0; width: 100%;">
-          100
+    <div class="card__content" *ngFor="let card of cards; index as i;">
+      <div>
+        <h4>
+          {{card.total}}
         </h4>
-        <div style="width: 100%;font-weight: normal;margin-top: 5px;">
-          <span>Teste</span>
+        <div>
+          <span>{{card.name}}</span>
         </div>
       </div>
-      <div style="width: 25%;text-align: center;font-size: 28px;background-color: #334148;height: 100%;display: flex;align-items: center;justify-content: center;border-radius: 0 10px 10px 0;">
-        <i class="fa-light fa-calendar" style="margin-right: 5px; color: rgb(5, 223, 155);"></i>
-      </div>
-    </div>
-
-    <div style="display: flex; align-items: center; justify-content: space-between; width: 300px; height: 100px; background-color: #ffffff; margin: 1em; border-radius: 10px; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;">
-      <div style="width: 75%; margin-left: 20px; font-weight: bold; display: flex; justify-content: center; align-items: center; flex-wrap: wrap;">
-        <h4 style="font-size: 22px; margin: 0; padding: 0; width: 100%;">
-          100
-        </h4>
-        <div style="width: 100%;font-weight: normal;margin-top: 5px;">
-          <span>Teste</span>
-        </div>
-      </div>
-      <div style="width: 25%;text-align: center;font-size: 28px;background-color: #334148;height: 100%;display: flex;align-items: center;justify-content: center;border-radius: 0 10px 10px 0;">
-        <i class="fa-light fa-calendar" style="margin-right: 5px; color: rgb(5, 223, 155);"></i>
-      </div>
-    </div>
-
-    <div style="display: flex; align-items: center; justify-content: space-between; width: 300px; height: 100px; background-color: #ffffff; margin: 1em; border-radius: 10px; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;">
-      <div style="width: 75%; margin-left: 20px; font-weight: bold; display: flex; justify-content: center; align-items: center; flex-wrap: wrap;">
-        <h4 style="font-size: 22px; margin: 0; padding: 0; width: 100%;">
-          100
-        </h4>
-        <div style="width: 100%;font-weight: normal;margin-top: 5px;">
-          <span>Teste</span>
-        </div>
-      </div>
-      <div style="width: 25%;text-align: center;font-size: 28px;background-color: #334148;height: 100%;display: flex;align-items: center;justify-content: center;border-radius: 0 10px 10px 0;">
-        <i class="fa-light fa-calendar" style="margin-right: 5px; color: rgb(5, 223, 155);"></i>
+      <div>
+        <i class="{{card.icon}}"  [style.color]="card.color"></i>
       </div>
     </div>
   </div>
-
-  <div style="display: flex; width: 100%; justify-content: space-between; align-items: center; flex-wrap: wrap; margin-top: -65px; margin-bottom: 20px; padding: 2em;">
-    <div style="width: 55%; height: 300px; background-color: rgb(182, 130, 252); margin: 1em; border-radius: 10px; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;"></div>
-    <div style="width: 40%; height: 300px; background-color: rgb(5, 223, 155); margin: 1em; border-radius: 10px; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;"></div>
-    <div style="width: 55%; height: 300px; background-color: rgb(182, 130, 252); margin: 1em; border-radius: 10px; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;"></div>
-    <div style="width: 40%; height: 300px; background-color: rgb(5, 223, 155); margin: 1em; border-radius: 10px; box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;"></div>
+  <div id="charts__content">
+    <div class="chart__content-template-one"></div>
+    <div class="chart__content-template-two"></div>
+    <div class="chart__content-template-one"></div>
+    <div class="chart__content-template-two"></div>
   </div>
-
   <br>
-
 </main>

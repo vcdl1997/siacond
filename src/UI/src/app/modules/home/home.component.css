@@ -6,3 +6,139 @@ main{
   margin-top: 70px;
   overflow-y: auto;
 }
+
+
+#cards__content{
+  display: flex; 
+  width: 100%; 
+  justify-content: space-between; 
+  padding: 2em; 
+  align-items: center; 
+  flex-wrap: wrap; 
+  margin-top: -10px;
+}
+
+#cards__content{
+  display: flex; 
+  width: 100%; 
+  justify-content: space-between; 
+  padding: 2em; 
+  align-items: center; 
+  flex-wrap: wrap; 
+  margin-top: -10px;
+}
+
+#cards__content-title{
+  width: 100%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: space-evenly; 
+  margin: 1em; 
+  text-align: left;
+}
+
+#cards__content-title > h3{
+  width: 100%;
+}
+
+.card__content{
+  display: flex; 
+  align-items: center; 
+  justify-content: space-between; 
+  width: 300px; 
+  height: 100px; 
+  background-color: #ffffff; 
+  margin: 1em; 
+  border-radius: 10px; 
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.card__content > div:nth-child(1){
+  width: 75%; 
+  margin-left: 20px; 
+  font-weight: bold; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  flex-wrap: wrap;
+}
+
+.card__content > div:nth-child(1) > h4{
+  font-size: 22px; 
+  margin: 0; 
+  padding: 0; 
+  width: 100%;
+}
+
+.card__content > div:nth-child(1) > div{
+  width: 100%;
+  font-weight: normal;
+  margin-top: 5px;
+}
+
+.card__content > div:nth-child(2){
+  width: 35%;
+  text-align: center;
+  font-size: 28px;
+  background-color: #334148;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0 10px 10px 0;
+}
+
+.card__content > div:nth-child(2) > i{
+  margin-right: 5px;
+}
+
+#charts__content{
+  display: flex; 
+  width: 100%; 
+  justify-content: space-between; 
+  align-items: center; 
+  flex-wrap: wrap; 
+  margin-top: -65px; 
+  margin-bottom: 20px; 
+  padding: 2em;
+}
+
+.chart__content-template-one{
+  width: 50%; 
+  height: 300px; 
+  background-color: rgb(182, 130, 252); 
+  margin: 1em; 
+  border-radius: 10px; 
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.chart__content-template-two{
+  width: 40%; 
+  height: 300px; 
+  background-color: rgb(5, 223, 155); 
+  margin: 1em; 
+  border-radius: 10px; 
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .card__content
+  {
+    width: 40%;
+  }
+
+  .chart__content-template-one,
+  .chart__content-template-two
+  {
+    width: 100%;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 767px) {
+  .card__content, 
+  .chart__content-template-one,
+  .chart__content-template-two
+  {
+    width: 100%;
+  }
+}

@@ -67,9 +67,10 @@ class UserRepository extends Repository
         ";
         
         $stmt = $this->conn->prepare($sql);
+
         $stmt->execute([
             ":" . User::USERNAME => $username,
-            ":" . User::ACTIVE => true
+            ":" . User::ACTIVE => true,
         ]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
         
