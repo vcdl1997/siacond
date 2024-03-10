@@ -43,7 +43,7 @@ final class Firewall
 
         if(!$fileExists){
             $arrIps = array_unique(array_merge(self::getIpsPrimarySource(), self::getIpsSecondarySource()));
-            unlink($outdatedFilePath);
+            array_map('unlink', glob(getcwd() . DIRECTORY_SEPARATOR . self::BLACKLIST . '_*.txt'));
             $newBlacklist = fopen(self::BLACKLIST . '_' . date('Y-m-d') . '.txt','w');
             fwrite($newBlacklist, implode("\n",  $arrIps));
         }
