@@ -2,33 +2,33 @@
 
 class PersonService
 {
+    private $conn;
     private $userService;
 
     function __construct(
-        UserService $userService = new UserService()
+        PDO $conn
     )
     {
-        $this->userService = $userService;
+        $this->conn = $conn;
+        $this->userService = new UserService($conn);
     }
 
-    public function store(array $data = [], PDO $connAlternative = null) :PersonBaseDto
+    public function create(array $data = []) :PersonBaseDto
     {
-        $personRepository = PersonRepositoryFactory::getRepository(Request::data_get($data, 'typeOfPerson', ''));
-        $conn = empty($connAlternative) ? $personRepository->conn : $connAlternative;
-
         try{
-            $conn->beginTransaction();
+            $typeOfPerson = Request::data_get($data, 'typeOfPerson', '');
+            $personRepository = PersonRepositoryFactory::getRepository($typeOfPerson, $this->conn);
+            $this->conn->beginTransaction();
             
-            $user = $this->userService->store($data, $conn);
+            $user = $this->userService->create($data, $this->conn);
             $person = PersonFactory::createPerson($data)->userId($user->getId());
-            $personRepository->defaultSqlCommand('INSERT', $person, $conn);
-            $dto = $personRepository->getByUserId($user->getId());
+            $personRepository->defaultSqlCommand('INSERT', $person);
             
-            $conn->commit();
+            $this->conn->commit();
             
-            return $dto;
-        }catch(Exception $e){
-            $conn->rollBack();
+            return $personRepository->getByUserId($user->getId());
+        }catch(Throwable | Exception $e){
+            $this->conn->rollBack();
             throw new BusinessException($e->getMessage());
         }
     }

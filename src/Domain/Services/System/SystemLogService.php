@@ -5,10 +5,13 @@ class SystemLogService
     private $systemLog;
     private $systemLogRepository;
 
-    function __construct(SystemLog $systemLog = new SystemLog())
+    function __construct(
+        SystemLog $systemLog,
+        PDO $conn
+    )
     {
         $this->systemLog = $systemLog;
-        $this->systemLogRepository = new SystemLogRepository($systemLog);
+        $this->systemLogRepository = new SystemLogRepository(null, $conn);
     }
 
     public function handleException(Exception $exception) :void
@@ -24,10 +27,16 @@ class SystemLogService
 
     private function response(Exception $exception) :void
     {
-        $data = ['message' => $exception->getMessage()];
+        $data = [
+            'message' => trim(preg_replace('/\s+/', ' ', $exception->getMessage()))
+        ];
+        
         switch(get_class($exception)){
             case "BusinessException":
                 JSON::response($data, HttpStatusCode::BAD_REQUEST);
+
+            case "JsonException":
+                JSON::response($data, HttpStatusCode::UNAUTHORIZED);
 
             case "NotFoundException":
                 JSON::response($data, HttpStatusCode::NOT_FOUND);
@@ -37,7 +46,6 @@ class SystemLogService
 
             case "ModelException":
             case "DatabaseErrorException":
-            case "JSONException":
             case "IOException":
             case "OutOfRangeException":
             case "RuntimeException": 

@@ -2,9 +2,12 @@
 
 class UserTokenRepository extends Repository
 {
-    function __construct(UserToken $model = new UserToken())
+    function __construct(
+        UserToken $model = null,
+        PDO $conn
+    )
     {
-        parent::__construct($model);
+        parent::__construct(empty($model) ? new UserToken() : $model, $conn);
     }
 
     public function getUserByToken(string $token) :UserDto
@@ -22,5 +25,40 @@ class UserTokenRepository extends Repository
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'UserDto');
         
         return $stmt->fetch();
+    }
+
+    public function tokenExists(string $token) :bool
+    {
+        $sql = "
+            SELECT 
+                count(*) as exists_token
+            FROM " . UserToken::TABLE . " AS user_token
+            WHERE user_token.". UserToken::TOKEN . " = :" . UserToken::TOKEN . "
+            AND user_token.". UserToken::ACTIVE . " = :" . UserToken::ACTIVE
+        ;
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            ":" . UserToken::TOKEN => $token,
+            ":" . UserToken::ACTIVE => true
+        ]);
+        $result = $stmt->fetch(PDO::FETCH_LAZY);
+
+        return $result->exists_token == 1;
+    }
+
+    public function inactiveToken(string $token) :void
+    {
+        $sql = "
+            UPDATE " . UserToken::TABLE . "
+            SET ". UserToken::ACTIVE . " = false
+            WHERE ". UserToken::TOKEN . " = :" . UserToken::TOKEN
+        ;
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(":" . UserToken::TOKEN, $token);
+        $stmt->execute();
+
+        if($stmt->rowCount() == 0){
+            throw new DatabaseErrorException(SQLError::getMessage('UNSUCCESSFUL_COMMAND'));
+        }
     }
 }

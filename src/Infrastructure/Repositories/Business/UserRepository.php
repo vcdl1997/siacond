@@ -2,9 +2,12 @@
 
 class UserRepository extends Repository
 {
-    function __construct(User $model = new User())
+    function __construct(
+        User $model = null,
+        PDO $conn
+    )
     {
-        parent::__construct($model);
+        parent::__construct(empty($model) ? new User() : $model, $conn);
     }
 
     public function existsUsersWithThisUsername(string $username) :bool
@@ -22,7 +25,26 @@ class UserRepository extends Repository
         return $result->existing_users > 0;
     }
 
-    public function getByUsername(string $username) :User
+    public function getById(int $userid) :User
+    {
+        $sql = "
+            SELECT 
+                user." . User::ID . " AS id,
+                user." . User::USERNAME . " AS username,
+                user." . User::PASSWORD . " AS password,
+                user." . User::ACTIVE . " AS active 
+            FROM " . User::TABLE . " AS user
+            WHERE user." . User::ID . " = :" . User::ID . "
+        ";
+        
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([":" . User::ID => $userid]);
+        $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');
+
+        return $stmt->fetch();
+    }
+
+    public function getByUsername(string $username, ) :User
     {
         $sql = "
             SELECT 
@@ -33,6 +55,7 @@ class UserRepository extends Repository
             FROM " . User::TABLE . " AS user
             WHERE user." . User::USERNAME . " = :" . User::USERNAME . "
         ";
+        
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([":" . User::USERNAME => $username]);
         $stmt->setFetchMode(PDO::FETCH_CLASS, 'User');

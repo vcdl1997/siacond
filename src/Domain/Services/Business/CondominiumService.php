@@ -2,11 +2,15 @@
 
 class CondominiumService
 {
+    private $conn;
     private $condominiumRepository;
 
-    function __construct()
+    function __construct(
+        PDO $conn
+    )
     {
-        $this->condominiumRepository = new CondominiumRepository();
+        $this->conn = $conn;
+        $this->condominiumRepository = new CondominiumRepository(null, $conn);
     }
 
     public function listAll(array $data) :array

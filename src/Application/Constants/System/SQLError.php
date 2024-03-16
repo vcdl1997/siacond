@@ -2,9 +2,9 @@
 
 final class SQLError extends BaseError
 {
-    const UNSUCCESSFUL_INSERT = [
-        LanguageIdentifier::PORTUGUESE_BRAZIL => 'Erro ao salvar o registro ',
-        LanguageIdentifier::ENGLISH => 'Error saving record '
+    const UNSUCCESSFUL_COMMAND = [
+        LanguageIdentifier::PORTUGUESE_BRAZIL => 'Erro ao executar comando DML.',
+        LanguageIdentifier::ENGLISH => 'Error executing DML command.'
     ];
 
     const UNSUPPORTED_COMMAND = [

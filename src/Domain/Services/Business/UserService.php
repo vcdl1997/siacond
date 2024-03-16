@@ -5,13 +5,20 @@ class UserService
     private $userRepository;
     private $userTokenService;
 
-    function __construct()
+    function __construct(
+        PDO $conn
+    )
     {
-        $this->userRepository = new UserRepository();
-        $this->userTokenService = new UserTokenService();
+        $this->userRepository = new UserRepository(null, $conn);
+        $this->userTokenService = new UserTokenService($conn);
     }
 
-    public function store(array $data = [], PDO $connAlternative = null) :User
+    public function getById(int $userId) :User
+    {
+        return $this->userRepository->getById($userId);
+    }
+
+    public function create(array $data = []) :mixed
     {
         $user = User::build()
             ->username(Request::data_get($data, 'username'))
@@ -22,7 +29,7 @@ class UserService
             throw new BusinessException(UserRule::getMessage('USERNAME_IN_USE'));
         }
 
-        $this->userRepository->defaultSqlCommand('INSERT', $user, $connAlternative);
+        $this->userRepository->defaultSqlCommand('INSERT', $user);
 
         return $this->userRepository->getByUsername($user->getUsername());
     }
@@ -55,22 +62,6 @@ class UserService
             throw new BusinessException(UserRule::getMessage('INCORRECT_PASSWORD'));
         }
 
-        return $this->generateToken($user);
-    }
-
-    private function generateToken(User $user) :array
-    {
-        $token = JWT::encode([ 
-            'userId' => $user->getId() 
-        ]);
-
-        $this->userTokenService->store([ 
-            'userId' => $user->getId(), 
-            'token' => $token 
-        ]);
-
-        return [
-            "token" => $token
-        ];
+        return $this->userTokenService->create($user);
     }
 }

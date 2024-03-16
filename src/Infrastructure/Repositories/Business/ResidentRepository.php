@@ -2,9 +2,12 @@
 
 class ResidentRepository extends PersonRepository
 {
-    function __construct(Resident $model = new Resident())
+    function __construct(
+        Resident $model = null,
+        PDO $conn = null
+    )
     {
-        parent::__construct($model);
+        parent::__construct(empty($model) ? new Resident() : $model, $conn);
     }
 
     public function getByUserId(int $userId) :ResidentDto

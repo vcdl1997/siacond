@@ -7,6 +7,16 @@ final class JSONError extends BaseError
         LanguageIdentifier::ENGLISH => 'Error decoding JSON string.'
     ];
 
+    const UNAUTHORIZED_ACCESS = [
+        LanguageIdentifier::PORTUGUESE_BRAZIL => 'Acesso não autorizado.',
+        LanguageIdentifier::ENGLISH => 'Unauthorized access.'
+    ];
+
+    const EXPIRED = [
+        LanguageIdentifier::PORTUGUESE_BRAZIL => 'O Token informado já expirou.',
+        LanguageIdentifier::ENGLISH => 'The informed Token has already expired.'
+    ];
+
     public static function getMessage(string $constant) :string
     {  
         try{

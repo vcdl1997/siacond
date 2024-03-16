@@ -1,4 +1,4 @@
 export enum PrivateRoutes {
-  RENEW_TOKEN = 'renew-token',
+  TOKENS = 'tokens',
   LIST_ALL_CONDOMINIUMS = 'condominiums'
 }

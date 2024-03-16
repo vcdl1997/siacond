@@ -5,9 +5,14 @@ export class TokenUtil {
     return localStorage.getItem('bearerToken') != null;
   }
 
-  static getToken(bearerToken: string)
+  static getToken()
   {
     return localStorage.getItem('bearerToken');
+  }
+
+  static removeToken()
+  {
+    return localStorage.removeItem('bearerToken');
   }
 
   static storeToken(bearerToken: string) :void

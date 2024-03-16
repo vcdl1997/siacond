@@ -2,9 +2,12 @@
 
 class EmployeeRepository extends PersonRepository
 {
-    function __construct(Employee $model = new Employee())
+    function __construct(
+        Employee $model = null,
+        PDO $conn = null
+    )
     {
-        parent::__construct($model);
+        parent::__construct(empty($model) ? new Employee() : $model, $conn);
     }
 
     public function getByUserId(int $userId) :EmployeeDto

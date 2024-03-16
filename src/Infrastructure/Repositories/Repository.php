@@ -5,25 +5,26 @@ abstract class Repository
     protected $model;
     public $conn;
 
-    function __construct(Model $model)
+    function __construct(
+        Model $model,
+        PDO $conn
+    )
     {
         $this->model = $model;
-        $this->conn = Database::getConnection();
+        $this->conn = $conn;
     }
 
-    public function defaultSqlCommand(string $crudOperation,  Model $model = null, PDO $connAlternative = null) :void
+    public function defaultSqlCommand(string $crudOperation,  Model $model = null) :void
     {
-        $params = $this->getParametersByCrudOperation($crudOperation, $model);
-        $stmt = $this->buildDefaultSqlCommand($crudOperation, $connAlternative);
-        $stmt->execute($params);
+        $stmt = $this->conn->prepare($this->buildDefaultSqlCommand($crudOperation));
+        $stmt->execute($this->getParametersByCrudOperation($crudOperation, $model));
 
         if($stmt->rowCount() == 0){
-            $error = SQLError::getMessage('UNSUCCESSFUL_INSERT') . "“" . get_class($model) . "”";
-            throw new DatabaseErrorException($error);
+            throw new DatabaseErrorException(SQLError::getMessage('UNSUCCESSFUL_COMMAND'));
         }
     }
  
-    private function buildDefaultSqlCommand(string $crudOperation, PDO $connAlternative = null) :PDOStatement
+    private function buildDefaultSqlCommand(string $crudOperation) :string
     {
         if(!in_array($crudOperation, ['INSERT', 'UPDATE', 'DELETE'])){
             throw new OutOfRangeException(SQLError::getMessage('UNSUPPORTED_COMMAND'));
@@ -89,13 +90,7 @@ abstract class Repository
             break;
         }
 
-        if(!empty($connAlternative)){
-            $this->conn = $connAlternative;
-        }
-
-        $stmt = $this->conn->prepare($sql);
-
-        return $stmt;
+        return $sql;
     }
 
     public function isEquals(Model $object) :bool

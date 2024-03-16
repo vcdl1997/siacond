@@ -5,27 +5,25 @@ import { PublicRoutes } from 'src/app/core/enums/PublicRoutes';
 import { Login } from '../schema/login';
 import { BaseService } from './base-service';
 import { PrivateRoutes } from 'src/app/core/enums/PrivateRoutes';
+import { Router } from '@angular/router';
+import axios from 'axios';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CondominiumService extends BaseService{
 
-  constructor(private http : HttpClient) {
-    super(); 
+  constructor(
+    http : HttpClient,
+    router :Router
+  ) {
+    super(http, router);
   }
 
-  public getAll() :Observable<Object>
+  public getAll() :Promise<Object>
   {
-    let headers_object = new HttpHeaders();
-    headers_object.append("Access-Control-Allow-Origin", "*");
-    headers_object.append("Access-Control-Allow-Method", "POST, GET, DELETE, PUT, PATCH, OPTIONS");
-    headers_object.append("Access-Control-Allow-Headers", "*");
-
-    const httpOptions = {
-      headers: headers_object
-    };
-
-    return this.http.get(`${this.getBaseUrlApi()}/${PrivateRoutes.LIST_ALL_CONDOMINIUMS}`, httpOptions);
+    return this.renewToken(() => {
+      return axios.get(`${this.getBaseUrlApi()}/${PrivateRoutes.LIST_ALL_CONDOMINIUMS}`, this.getHttpHeaders());
+    });
   }
 }

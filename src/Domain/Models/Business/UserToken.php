@@ -6,10 +6,12 @@ class UserToken extends Model
     const ID = 'ID';
     const USER_ID = 'USER_ID';
     const TOKEN = 'TOKEN';
+    const ACTIVE = 'ACTIVE';
     
     private $id;
     private $userId;
     private $token;
+    private $active;
 
     public static function build() :UserToken
     {
@@ -53,6 +55,16 @@ class UserToken extends Model
     	$this->token = $token;
     }
 
+    public function getActive() :bool
+    {
+    	return $this->active;
+    }
+
+    public function setActive(bool $active) :void
+    {
+    	$this->active = $active;
+    }
+
     public function getTable() :string
     {
         return self::TABLE;
@@ -75,7 +87,9 @@ class UserToken extends Model
 
     public function getMutableFields() :array
     {
-        return [];
+        return [
+            self::ACTIVE => 'getActive'
+        ];
     }
 
     public function toString() :string

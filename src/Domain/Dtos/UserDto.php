@@ -7,7 +7,6 @@ class UserDto extends BaseDto
 
     public function getId() :int
     {
-
         return $this->id;
     }
 

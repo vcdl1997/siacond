@@ -3,10 +3,11 @@
 class CondominiumRepository extends Repository
 {
     function __construct(
-        Condominium $model = new Condominium()
+        Condominium $model = null,
+        PDO $conn
     )
     {
-        parent::__construct($model);
+        parent::__construct(empty($model) ? new Condominium() : $model, $conn);
     }
 
     public function listAll(array $filters) :array

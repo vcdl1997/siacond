@@ -4,9 +4,11 @@ class UserTokenService
 {
     private $userTokenRepository;
 
-    function __construct()
+    function __construct(
+        PDO $conn
+    )
     {
-        $this->userTokenRepository = new UserTokenRepository();
+        $this->userTokenRepository = new UserTokenRepository(null, $conn);
     }
 
     public function getUserByToken(string $token) :UserDto
@@ -22,5 +24,45 @@ class UserTokenService
         ;
 
         $this->userTokenRepository->defaultSqlCommand('INSERT', $userToken);
+    }
+
+    public function tokenIsValid(string $token) :string
+    {
+        $token = str_replace("Bearer ", "", $token);
+
+        if(!$this->userTokenRepository->tokenExists($token)){
+            throw new JSONException(JSONError::getMessage('UNAUTHORIZED_ACCESS'));
+        }
+
+        $tokenDetails = JWT::decode($token);
+        $expires = Request::data_get($tokenDetails, 'expires', 0);
+
+        if(intval($expires) < time()){
+            throw new JSONException(JSONError::getMessage('EXPIRED'));
+        }
+
+        return $token;
+    }
+
+    public function create(User $user) :array
+    {
+        $token = JWT::encode([ 
+            'userId' => $user->getId(),
+            'expires' => strtotime("now +" . Environment::getTokenExpirationTime() . "minutes")
+        ]);
+
+        $this->store([ 
+            'userId' => $user->getId(), 
+            'token' => $token,
+        ]);
+
+        return [
+            "token" => $token
+        ];
+    }
+
+    public function inactive(string $token) :void
+    {
+        $this->userTokenRepository->inactiveToken($token);
     }
 }

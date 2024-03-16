@@ -2,9 +2,12 @@
 
 abstract class PersonRepository extends Repository implements IPersonRepository
 {
-    function __construct(PersonBase $model)
+    function __construct(
+        PersonBase $model,
+        PDO $conn = null
+    )
     {
-        parent::__construct($model);
+        parent::__construct($model, $conn);
     }
 }
 

@@ -13,27 +13,22 @@ final class Route{
     const METHOD = 0;
     const CONTROLLER = 1;
     const FUNCTION = 2;
-    const PERMISSIONS = 3;
+    const REQUIRES_TOKEN = 3;
+    const PERMISSIONS = 4;
 
     
     private static function getRoutes() :array
     {
-        $absolutePath = dirname(__FILE__);
-        
-        $arrAbsolutePath = explode(DIRECTORY_SEPARATOR, $absolutePath);
-        
-        $currentFolder = $arrAbsolutePath[count($arrAbsolutePath)-1];
-        
-        $routeFolder = str_replace($currentFolder, "routes", $absolutePath);
-        
-        $files = array_filter(array_map(function($name){
-            if(!in_array($name, [".", "..", "IRoute.php", "Route.php"])) return str_replace(".php", "", $name);
-        }, scandir($routeFolder)));
+        $files =  $routes = [];
+        $folder = getcwd() . DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "Application" . DIRECTORY_SEPARATOR . "Routes";
+        FileHandler::listAllFilesInDirectory($folder, $files);
 
-        $routes = [];
+        foreach($files as $file){
+            if(strpos($file, "IRoute.php") !== false || !is_file($file)) continue;
 
-        foreach($files as $route){
-            $route = new $route();
+            $arrFile = explode(DIRECTORY_SEPARATOR, $file);
+            $class = str_replace(".php", "", $arrFile[count($arrFile)-1]);
+            $route = new $class();
             $routes = array_merge($routes, $route->getRoutes());
         }
 
@@ -156,6 +151,7 @@ final class Route{
             Controller::CURRENT_ROUTE => $currentResource, 
             Controller::RECEIVED => self::getData($resource, $currentResource, $method),
             Controller::HEADERS => getallheaders(),
+            Controller::REQUIRES_TOKEN => false,
             Controller::PERMISSIONS_REQUIRED => []
         ];
        
@@ -163,6 +159,7 @@ final class Route{
             if($currentResource == $route && $method == $info[self::METHOD]){
                 $class = $info[self::CONTROLLER];
                 $function = $info[self::FUNCTION];
+                $received[Controller::REQUIRES_TOKEN] = $info[self::REQUIRES_TOKEN];
                 $received[Controller::PERMISSIONS_REQUIRED] = $info[self::PERMISSIONS];
                 $controller = new $class($received);
 

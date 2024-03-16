@@ -58,7 +58,7 @@ class User extends Model
     public function setUsername(string $username) :void
     {
         if(!$this->validateUsername($username)){
-            throw new Exception(UserRule::getMessage('INVALID_USERNAME'));
+            throw new InvalidArgumentException(UserRule::getMessage('INVALID_USERNAME'));
         }
 
     	$this->username = $username;

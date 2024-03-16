@@ -5,11 +5,10 @@ class PublicController extends Controller{
     private $userService;
 
     function __construct(
-        mixed $data = null,
-        UserService $userService = new UserService()
+        mixed $data = null
     ){
         parent::__construct($data);
-        $this->userService = $userService;
+        $this->userService = new UserService($this->conn);
     }
 
     public function index()

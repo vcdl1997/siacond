@@ -15,4 +15,9 @@ final class Environment
     {
     	return getenv('LANGUAGE');
     }
+
+    public static function getTokenExpirationTime() :string
+    {
+    	return getenv('TOKEN_EXPIRATION_TIME');
+    }
 }

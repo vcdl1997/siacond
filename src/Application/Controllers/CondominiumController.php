@@ -6,10 +6,9 @@ class CondominiumController extends Controller{
 
     function __construct(
         mixed $data = null,
-        CondominiumService $condominiumService = new CondominiumService(),
     ){
         parent::__construct($data);
-        $this->condominiumService = $condominiumService;
+        $this->condominiumService = new CondominiumService($this->conn);
     }
 
     public function listAll()

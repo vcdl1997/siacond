@@ -47,14 +47,18 @@ export class AuthComponent {
       return;
     }
 
-    this.authService.login(this.login).subscribe((response: any) => {
-      TokenUtil.storeToken(response.token);
-      this.router.navigate(['/selecionar-condominio']);
-    },
-    (err) => {
-      Swal.fire({ icon: "error", title: "Oops...", text: err.error.message });
-      return;
-    });
+    this.authService.login(this.login)
+      .then((response:any) => {
+        const {token} = response.data;
+        TokenUtil.storeToken(token);
+        this.router.navigate(['/selecionar-condominio']);
+      })
+      .catch(err => {
+        const {data, status} = err.response;
+        Swal.fire({ icon: "error", title: "Oops...", text: data.message });
+        return;
+      })
+    ;
   }
 
   setTypeOfPerson(typeOfPerson: string) :void {
@@ -64,7 +68,7 @@ export class AuthComponent {
   private validateTypeOfPerson(typeOfPerson: string) :boolean
   {
     const options: Array<String> = [
-      Person.RESIDENT, 
+      Person.RESIDENT,
       Person.EMPLOYEE
     ];
 
