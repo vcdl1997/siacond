@@ -19,7 +19,9 @@ class TokenController extends Controller{
         $this->userTokenService->deleteByToken($token);
 
         JSON::response(
-            $this->userTokenService->create($this->userService->getById($this->data[self::RECEIVED]['userId'])), 
+            $this->userTokenService->create(
+                $this->userService->getById($this->data[self::RECEIVED]['userId'])
+            ), 
             HttpStatusCode::CREATED
         );
     }
