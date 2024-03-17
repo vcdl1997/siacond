@@ -46,11 +46,10 @@ class UserTokenRepository extends Repository
         return $result->exists_token == 1;
     }
 
-    public function inactiveToken(string $token) :void
+    public function deleteByToken(string $token) :void
     {
         $sql = "
-            UPDATE " . UserToken::TABLE . "
-            SET ". UserToken::ACTIVE . " = false
+            DELETE FROM " . UserToken::TABLE . "
             WHERE ". UserToken::TOKEN . " = :" . UserToken::TOKEN
         ;
         $stmt = $this->conn->prepare($sql);

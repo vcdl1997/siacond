@@ -23,18 +23,18 @@ export class MenubarComponent implements OnInit {
     router :Router
   ) {
     this.router = router;
-    DisableDevtool({
-      ignore: () => {
-        return this.profile === "admin";
-      },
-      ondevtoolopen(type, next){
-        TokenUtil.removeToken();
-        const body:any = document.querySelector("body");
-        body.innerHTML = '';
-        confirm("Foi detectado o uso da ferramenta Devtools (F12), você será desconectado do sistema.");
-        next();
-      }
-    });
+    // DisableDevtool({
+    //   ignore: () => {
+    //     return this.profile === "admin";
+    //   },
+    //   ondevtoolopen(type, next){
+    //     TokenUtil.removeToken();
+    //     const body:any = document.querySelector("body");
+    //     body.innerHTML = '';
+    //     confirm("Foi detectado o uso da ferramenta Devtools (F12), você será desconectado do sistema.");
+    //     next();
+    //   }
+    // });
   }
 
   ngOnInit(): void {

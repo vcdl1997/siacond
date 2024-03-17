@@ -1,5 +1,5 @@
 import { AuthService } from './../../data/service/auth-service.service';
-import { Component } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Person } from 'src/app/core/enums/Person';
@@ -12,7 +12,11 @@ import Swal from 'sweetalert2';
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.css']
 })
-export class AuthComponent {
+export class AuthComponent implements OnChanges{
+
+  disconnected: boolean = false;
+
+  messageDisconnectedContent = `Você foi desconectado! <i class="fa-solid fa-plug-circle-exclamation"></i>`;
 
   private readonly authService: AuthService;
   private readonly router: Router;
@@ -24,11 +28,16 @@ export class AuthComponent {
 
   constructor(
     authService: AuthService,
-    router :Router,
+    router :Router
   ){
     this.authService = authService;
     this.router = router;
     this.redirectsIfAlreadyLoggedIn();
+    this.checkIfItHasBeenDisconnected();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    console.log(changes);
   }
 
   onSubmit(form: NgForm) {
@@ -94,6 +103,19 @@ export class AuthComponent {
   {
     if(TokenUtil.tokenExists()){
       this.router.navigate(['/selecionar-condominio']);
+    }
+  }
+
+  private checkIfItHasBeenDisconnected() :void
+  {
+    const disconnected = localStorage.getItem('disconnected') ?? 'false';
+    this.disconnected = JSON.parse(['true', 'false'].indexOf(disconnected) == -1 ? 'false' : disconnected);
+
+    if(this.disconnected){
+      setTimeout(()=>{
+        this.disconnected = false;
+        localStorage.setItem('disconnected', 'false');
+      }, 3000);
     }
   }
 }

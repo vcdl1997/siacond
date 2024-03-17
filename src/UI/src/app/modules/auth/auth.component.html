@@ -20,14 +20,14 @@
                     </div>
                     <form #f="ngForm" (ngSubmit)="onSubmit(f)" novalidate>
                         <div class="select-role" style="margin: 0; padding: 0; width: 100%;">
-                            <div class="btn-group btn-group-toggle d-flex justify-content-center align-items-center flex-wrap" data-toggle="buttons" 
+                            <div class="btn-group btn-group-toggle d-flex justify-content-center align-items-center flex-wrap" data-toggle="buttons"
                                 style="width: 100%; margin: 0; margin-bottom: 25px; padding: 0;">
                                 <label (click)="setTypeOfPerson('2')" class="btn" style="width: 50%; display: flex; align-items: center; justify-content: space-evenly; margin: 0; padding: 0px; padding-top: 10px; padding-bottom: 10px;">
                                     <input type="radio" name="typeOfPerson" ngModel required #typeOfPerson="ngModel" value="2"/>
                                     <div class="icon" class="d-flex justify-content-center align-items-center">
                                         <img src="/assets/images/svg/briefcase.svg" class="svg" alt=""  style="width: 30px !important;"/>
                                     </div>
-                                    <div>   
+                                    <div>
                                         <div style="text-align: center;"><span>Sou um:</span></div>
                                         <div style="text-align: center;">Funcionário</div>
                                     </div>
@@ -81,3 +81,9 @@
         </div>
     </div>
 </div>
+
+
+<app-message [showMessage]="disconnected" [htmlMessage]="messageDisconnectedContent"
+></app-message>
+
+

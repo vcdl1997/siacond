@@ -61,8 +61,8 @@ class UserTokenService
         ];
     }
 
-    public function inactive(string $token) :void
+    public function deleteByToken(string $token) :void
     {
-        $this->userTokenRepository->inactiveToken($token);
+        $this->userTokenRepository->deleteByToken($token);
     }
 }

@@ -16,7 +16,7 @@ class TokenController extends Controller{
     {
         $token = Request::data_get($this->data[self::HEADERS], "Authorization");
 
-        $this->userTokenService->inactive($token);
+        $this->userTokenService->deleteByToken($token);
 
         JSON::response(
             $this->userTokenService->create($this->userService->getById($this->data[self::RECEIVED]['userId'])), 

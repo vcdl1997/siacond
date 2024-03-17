@@ -38,6 +38,7 @@ export abstract class BaseService {
         })
         .catch(err => {
           TokenUtil.removeToken();
+          localStorage.setItem('disconnected', 'true');
           this.router.navigate([`/login`]);
         })
       ;

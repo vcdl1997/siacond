@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
 import { HomeComponent } from './modules/home/home.component';
 import { MenubarComponent } from './layout/menubar/menubar.component';
+import { MessageComponent } from './shared/components/message/message.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { MenubarComponent } from './layout/menubar/menubar.component';
     SelectCondominiumComponent,
     HomeComponent,
     MenubarComponent,
+    MessageComponent,
   ],
   imports: [
     BrowserModule,
