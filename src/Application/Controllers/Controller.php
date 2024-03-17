@@ -39,10 +39,10 @@ abstract class Controller{
             throw new JSONException(JSONError::getMessage('UNAUTHORIZED_ACCESS'));
         }
 
-        $this->validate($token);
+        $this->validateToken($token);
     }
 
-    private function validate(string $token) :void
+    private function validateToken(string $token) :void
     {
         $this->embeddingData($this->userTokenService->tokenIsValid($token));
     }

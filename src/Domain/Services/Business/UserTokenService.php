@@ -38,6 +38,7 @@ class UserTokenService
         $expires = Request::data_get($tokenDetails, 'expires', 0);
 
         if(intval($expires) < time()){
+            $this->deleteByToken($token);
             throw new JSONException(JSONError::getMessage('EXPIRED'));
         }
 
