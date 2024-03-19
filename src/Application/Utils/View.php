@@ -11,6 +11,8 @@ final class View
             $folders = DIRECTORY_SEPARATOR . "src" . DIRECTORY_SEPARATOR . "UI" . DIRECTORY_SEPARATOR . "dist". DIRECTORY_SEPARATOR . "ui";
             $target = $source . $folders;
             $destination = $source . DIRECTORY_SEPARATOR . "public" . DIRECTORY_SEPARATOR;
+
+            FileHandler::clear($destination);
             FileHandler::clone($target, $destination);
         }
         

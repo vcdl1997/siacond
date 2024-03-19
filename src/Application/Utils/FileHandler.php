@@ -19,6 +19,22 @@ final class FileHandler
         }
     }
 
+    public static function clear(string $origin) :void
+    {
+        $files = [];
+        self::listAllFilesInDirectory($origin, $files);
+
+        foreach($files as $file){
+            $file = str_replace('\\\\', '\\', $file);
+
+            if(is_dir($file)){
+                continue;   
+            }
+
+            unlink($file);
+        }
+    }
+
 
     public static function clone(string $origin, string $destination) :void
     {
